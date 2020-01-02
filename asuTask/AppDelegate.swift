@@ -11,7 +11,7 @@ import UserNotifications
 var textArray = [String]()
 
 @UIApplicationMain
-class AppDelegate: UIResponder,UIApplicationDelegate,DateProtocol {
+class AppDelegate: UIResponder,UIApplicationDelegate {
     
     var viewController: ViewController!
     var textArray = [String]()
@@ -25,19 +25,17 @@ class AppDelegate: UIResponder,UIApplicationDelegate,DateProtocol {
         return true
     }
     
+    
     func applicationDidEnterBackground(_ application: UIApplication) {
-        
-//    let appDelegate = UIApplication.shared.delegate as! AppDelegate
-//        appDelegate.viewController.setDateSystem(date: dateTime)
-
-
-        
+                
     }
     
-    func setDateSystem(date: Date) {
-        dateTime = date
-    }
     
+    
+//    func setDateSystem(date: Date) {
+//        dateTime = date
+//    }
+//
     
     
     func applicationWillResignActive(_ application: UIApplication) {
@@ -62,6 +60,8 @@ class AppDelegate: UIResponder,UIApplicationDelegate,DateProtocol {
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         completionHandler([.alert, .badge, .sound])
     }
+    
+    
 }
 
 

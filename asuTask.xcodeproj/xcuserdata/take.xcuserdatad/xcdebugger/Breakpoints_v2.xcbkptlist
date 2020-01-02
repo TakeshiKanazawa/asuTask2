@@ -5,18 +5,29 @@
    version = "2.0">
    <Breakpoints>
       <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.ExceptionBreakpoint">
+         <BreakpointContent
+            uuid = "005FF1FF-3649-4FE3-BC03-BC452B690E42"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            scope = "1"
+            stopOnStyle = "0">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "E9DD53B5-B50E-4743-8984-67C093D4BC07"
-            shouldBeEnabled = "No"
+            uuid = "EC84F492-320E-4D79-BADA-C5F58B9277B1"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "asuTask/ViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "124"
-            endingLineNumber = "124"
-            landmarkName = "setTaskTime(time:)"
+            startingLineNumber = "346"
+            endingLineNumber = "346"
+            landmarkName = "setNotification(date:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
