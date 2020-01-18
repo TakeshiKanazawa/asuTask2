@@ -17,35 +17,28 @@ extension Date {
 }
 
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, ReloadProtocol, DateProtocol, setidProtocol,UNUserNotificationCenterDelegate,setTimeProtocol,setPriorityProtocol {
-  
-    
- 
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, ReloadProtocol, DateProtocol, setidProtocol,UNUserNotificationCenterDelegate,setTimeProtocol,setPriorityProtocol,setTaskTimeforDetailViewProtocol {
 
     var notificationGranted = true
     var dateTime = Date()
 
     //タスク入力用テキストフィールド
     @IBOutlet weak var textField: UITextField!
-    //テーブルビュー
-
-   
     @IBOutlet weak var taskAllDone: UIButton!
-    
-
     @IBOutlet weak var taskAllDelete: UIButton!
+    //テーブルビュー
     @IBOutlet weak var tableView: UITableView!
     //タスク件数表示用ラベル
     @IBOutlet weak var todaysTaskMessageLabel: UILabel!
-
-    @IBOutlet weak var checkButton: CheckBox!
     //リターンキーが押されたかどうかを判定する
     var textFieldTouchReturnKey = false
-
     //タスク名を入れる配列
     var textArray = [String]()
+
     //タスク登録時刻を入れる配列
     var taskTimeArray = [String]()
+    //タスク登録時刻を入れる配列(detailview用)
+    var taskTimeArrayforDetailview = [String]()
     //タスク優先度を入れる配列
     var taskPriorityArray = [String]()
     //checkされたタスク(セル)の配列を入れておくための配列
@@ -56,17 +49,37 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var indexNumber = Int()
     //入力されたタスクを入れる変数
     var editText = String()
+    //content badge用変数
+    var contentBadgeInt = Int()
     
+    var refreshControl:UIRefreshControl!
+     var isRefresh = false
+    @objc func refresh()
+    {
+
+       // 更新するコード(webView.reload()など)
+        refreshControl.endRefreshing()
+        tableView.reloadData()
+
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         //tableview　⇨ viewcontroller へ処理を任せる
-        
         tableView.delegate = self
         tableView.dataSource = self
         textField.delegate = self
+        
+   self.refreshControl = UIRefreshControl()
+       
+   self.refreshControl.attributedTitle = NSAttributedString(string: "こうしん中！")
+        self.refreshControl.addTarget(self, action: #selector(refresh), for: UIControl.Event.valueChanged)
 
-        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
-        appDelegate.viewController = self
+   self.tableView.addSubview(refreshControl)
+        tableView.reloadData()
+        
+//
+//        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
+        //appDelegate.viewController = self
         
         //タスク完了ボタンの非表示
         taskAllDone.isHidden = true
@@ -88,6 +101,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
     //viewが表示される直前の処理
     override func viewWillAppear(_ animated: Bool) {
+        //インディケータのくるくる止める
+        refreshControl.endRefreshing()
+        tableView.reloadData()
         super.viewWillAppear(animated)
         todaysTaskMessageLabelChange()
         textField.text = ""
@@ -102,6 +118,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         } else {
             todaysTaskMessageLabel.text = "本日のタスクはありません"
         }
+    }
+    //Date型　⇨ String型へ変換を行うメソッド
+      func dateFromString(string: String, format: String) -> Date {
+         let formatter: DateFormatter = DateFormatter()
+         formatter.calendar = Calendar(identifier: .gregorian)
+         formatter.dateFormat = format
+        return formatter.date(from: string)!
     }
 
     //nextVCで完了ボタンが押されたら呼ばれるメソッド
@@ -124,6 +147,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         taskTimeArray.append(time)
         print(taskTimeArray)
     }
+    func setTaskTimeforDetailView(time: String) {
+        taskTimeArrayforDetailview.append(time)
+        print(taskTimeArrayforDetailview)
+    }
     func setTaskPriority(priority: String) {
         taskPriorityArray.append(priority)
       }
@@ -138,11 +165,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         func numberOfSections(in tableView: UITableView) -> Int {
             return 1
         }
-    //checkBoxのボタン
-    
     @IBAction func checkButton(_ sender: CheckBox) {
+    
+    //checkBoxのボタン
         let cell = sender.superview?.superview as! CustomTableViewCell
         let indexPath = self.tableView.indexPath( for: cell )
+
         //チェックがついていた時の処理
         if sender.isChecked == false{
             //タスク完了ボタンの非表示
@@ -162,9 +190,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             print(checkedTaskArray)
         }
 
-
-
         }
+
     //タスク全完了ボタンを押下した時
     @IBAction func taskAllDone(_ sender: Any) {
         let alert: UIAlertController = UIAlertController(title: "タスクの全完了", message: "チェック済みのタスクを全て完了にしても宜しいですか？", preferredStyle:  UIAlertController.Style.actionSheet)
@@ -197,10 +224,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
     }
 
-        
-    
-
-    
     //タスク全削除ボタンを押下した時
     @IBAction func taskAllDelete(_ sender: Any) {
        let alert: UIAlertController = UIAlertController(title: "タスクの全削除", message: "チェック済みのタスクを全て削除しても宜しいですか？", preferredStyle:  UIAlertController.Style.actionSheet)
@@ -210,7 +233,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
        //ボタン押下時の処理
            print("OK")
        })
-
 
        // アラートの表示拒否ボタン
        let cancelAction: UIAlertAction = UIAlertAction(title: "今後このメッセージを表示しない", style: UIAlertAction.Style.cancel, handler:{
@@ -240,6 +262,35 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! CustomTableViewCell
             print(textArray[indexPath.row])
             cell.setCell(titleText: textArray[indexPath.row])
+            
+            //タスク通知リマインド用画像
+            let clockImage = UIImage(named: "clock")! as UIImage
+            let sunImage = UIImage(named: "sun")! as UIImage
+            
+            //タスク通知があれば
+            if taskTimeArray[indexPath.row] != "設定なし"{
+                //砂時計画像をセルに表示させる
+                cell.taskNotificationImage.image = clockImage
+                //現在時刻比較用
+                let convertDate = self.dateFromString(string: self.taskTimeArray[indexPath.row], format:  "yyyy/MM/dd HH:mm")
+                //現在時刻のインスタンス化
+                     let now : Date = Date()
+                //該当セルのタスク通知時刻が現在時刻と同時刻か過去であった場合
+                if convertDate <= now  {
+                //画像を更に変更
+                    cell.taskNotificationImage.image = sunImage
+                //背景も赤に変更(緊急モード)
+                    cell.backgroundColor = UIColor.red
+                }
+            }
+
+                //それ以外は画像を表示しない
+                
+            else {
+                
+                cell.taskNotificationImage.isHidden = true
+                
+            }
 
             return cell
             
@@ -270,11 +321,28 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                   let center = UNUserNotificationCenter.current()
                 center.removePendingNotificationRequests(withIdentifiers: [self.idArray[indexPath.row]])
                 
-                print(self.idArray[self.indexNumber])
+                print(self.idArray[indexPath.row])
                     self.textArray.remove(at: indexPath.row)
                    self.idArray.remove(at: indexPath.row)
                 print(self.idArray)
+                //tasktimeArrayから削除セルの時刻をprint
+                print(self.taskTimeArray[indexPath.row])
+               
+               //タスク通知のあるタスクかcheck
+                if self.taskTimeArray[indexPath.row] != "設定なし" { //登録時刻が現在時刻よりも後の場合はタスク削除時にバッジもデクリメントする。
                 
+                //まず登録時刻をDate型に変換
+                let convertDate = self.dateFromString(string: self.taskTimeArray[indexPath.row], format:  "yyyy/MM/dd HH:mm")
+                //現在時刻のインスタンス化
+                let now : Date = Date()
+                //現在時刻と比較
+                //登録時刻が現在時刻と過去である、もしくは同時刻であった場合
+                if convertDate <= now  {
+                //バッジをデクリメント
+                UIApplication.shared.applicationIconBadgeNumber -= 1
+                }
+                }
+                //セルの削除
                 tableView.deleteRows(at: [indexPath], with: .fade)
                 //本日のタスク件数の再読み込み
                 self.todaysTaskMessageLabelChange()
@@ -308,13 +376,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
 
     func setNotification(date: Date) {
+
+        //コンテントバッジをインクリメント
+        contentBadgeInt += 1
         //通知日時の設定
         var trigger: UNNotificationTrigger
         //タスク通知名の設定
         let taskNotificationName = textArray[indexNumber]
         //noticficationtimeにdatepickerで取得した値をset
-        //取得時刻と現在時刻を比較し、過去の日時であった場合は登録せずアラートを出す
-        
         let notificationTime = Calendar.current.dateComponents(in: TimeZone.current, from: date)
         //現在時刻の取得
         let now = Date()
@@ -331,7 +400,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         content.title = "\(taskNotificationName)"
         content.body = "タスクのお知らせ"
         content.sound = .default
-        
+        //バッジにNSNumber型でcontentBadgeIntを代入
+        content.badge = contentBadgeInt as NSNumber
         //ユニークIDの設定
         let identifier = NSUUID().uuidString
         //登録用リクエストの設定
@@ -339,10 +409,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         print(identifier)
         idArray.append(identifier)
         print(idArray)
-    
+        
         //通知をセット
         UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
-
+        
     }
    
     //値を次の画面へ渡す処理
@@ -354,13 +424,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         //ここでタップされたセルのindexNumberを取得しなければいけない
                     detailVC.taskNameString = textArray[indexNumber]
-                    detailVC.taskTimeString = taskTimeArray[indexNumber]
+                    detailVC.taskTimeString = taskTimeArrayforDetailview[indexNumber]
                     detailVC.taskPriorityString = taskPriorityArray[indexNumber]
                     
                     print(taskTimeArray[indexNumber])
                 }
-            
-
+          
         if (segue.identifier == "next") &&
             textFieldTouchReturnKey == false {
             //タップした時にその配列の番号の中身を取り出して値を渡す
@@ -380,11 +449,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             nextVC.setId = self
             nextVC.setTime = self
             nextVC.setPriority = self
+            nextVC.setTaskTimeforDetailViewProtocol = self
         }
     }
     
-    
-
     //returnキーが押された時に発動するメソッド
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         editText = (textField.text?.trimmingCharacters(in: .whitespaces))!

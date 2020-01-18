@@ -23,6 +23,9 @@ protocol DateProtocol {
 protocol setTimeProtocol {
     func setTaskTime(time: String)
 }
+protocol setTaskTimeforDetailViewProtocol{
+    func setTaskTimeforDetailView (time: String)
+}
 
 protocol setPriorityProtocol {
     func setTaskPriority(priority: String)
@@ -35,22 +38,21 @@ class NextViewController: UIViewController {
     var dateProtol: DateProtocol?
     var setId:setidProtocol?
     var setTime:setTimeProtocol?
+    var setTaskTimeforDetailViewProtocol:setTaskTimeforDetailViewProtocol?
     var setPriority:setPriorityProtocol?
     
     //タスク通知フラグ
     var taskNotification = false
     //アラートコントローラー
     var alertController: UIAlertController!
-    //タスク優先度
+    //タスク優先度のデフォルト値設定
     var taskPriority = "設定なし"
     //タスク名のテキストフィールド
     var taskNameString = String()
     @IBOutlet weak var taskNameTextField: UITextField!
 
     //タスク通知日時のDatePicker
-    
     @IBOutlet weak var taskDatePicker: UIDatePicker!
-
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,7 +62,7 @@ class NextViewController: UIViewController {
         //Datepicker無効化
         taskDatePicker.isEnabled = false
         //最小日時を現在時刻に設定
-        taskDatePicker.minimumDate = NSDate() as Date
+        taskDatePicker.minimumDate = Date()
 
     }
 
@@ -72,8 +74,7 @@ class NextViewController: UIViewController {
             //タスク通知のdatepickerを無効化する処理(タスク通知しない)
             taskDatePicker.isEnabled = false
             taskNotification = false
-
-            //タスク通知のdatepickerを有効化する処理(タスク通知する)
+        //タスク通知のdatepickerを有効化する処理(タスク通知する)
         case 1: taskDatePicker.isEnabled = true
             taskNotification = true
 
@@ -112,9 +113,7 @@ class NextViewController: UIViewController {
         
         }
     }
-    //タスクスヌーズボタン
-    @IBAction func taskSnooze(_ sender: Any) {
-    }
+
     //完了ボタン
     @IBAction func done(_ sender: Any) {
         //タスク通知する場合⇨登録時刻が未来の日付なら処理を継続
@@ -123,31 +122,45 @@ class NextViewController: UIViewController {
             reloadData?.reloadSystemData(checkCount: 1)
         //変数taskTimeにDatePickerの時刻を代入
             let taskTime = format(date: taskDatePicker!.date)
+            let taskTimeForDetailView = formatforDetailView(date: taskDatePicker!.date)
             print(taskTime)
             setTime?.setTaskTime(time: taskTime)
+            setTaskTimeforDetailViewProtocol?.setTaskTimeforDetailView(time: taskTimeForDetailView)
             setPriority?.setTaskPriority(priority: taskPriority)
             dismiss(animated: true, completion: nil)
             //もしタスク通知がfalseなら。Viewコントローラーのtextarrayに仮値をappend
         }else if taskNotification == false {
             setId?.setId(id: "no ID")
              let taskTime = "設定なし"
+            let taskTimeForDetailView = "設定なし"
             setTime?.setTaskTime(time: taskTime)
+            setTaskTimeforDetailViewProtocol?.setTaskTimeforDetailView(time: taskTimeForDetailView)
             setPriority?.setTaskPriority(priority: taskPriority)
             reloadData?.reloadSystemData(checkCount: 1)
              dismiss(animated: true, completion: nil)
-        
         }
-     
         }
         
-
     //時刻チェックを行うメソッド
     func checkTime() -> Bool {
-        let currentDate = NSDate() as Date
-                //過去の日付じゃなければ処理を継続
-        let taskDatePickerSettedDate = taskDatePicker.date
-            //時刻を比較。過去の日付なら処理を終了
-        if currentDate >= taskDatePickerSettedDate {
+        
+        let formatter = DateFormatter()
+        //Datepickerの秒数を切り捨て
+        formatter.dateFormat = "yyyy/MM/dd HH:mm:00"
+        
+        let pickertimeToString = formatter.string(from: taskDatePicker.date)
+        let pickerTimeConvertedDate = formatter.date(from: pickertimeToString)
+
+        // 現在日時を currentDate に代入
+        let currentDate = Date()
+        
+        print(currentDate)
+        print(taskDatePicker.date)
+        print(pickerTimeConvertedDate!)
+        
+            //時刻を比較。過去の日付なら処理を終了。過去の日付じゃなければ処理を継続
+        
+        if currentDate >= pickerTimeConvertedDate!  {
                 alert(title: "登録できません",
                       message: "未来の日付を指定してください。")
             print("登録日時エラーの為処理終了")
@@ -155,8 +168,7 @@ class NextViewController: UIViewController {
         } else {
             print("日時チェックOK.処理継続")
               return true
-        }
-      
+            }
     }
     
     //アラート表示用メソッド
@@ -170,20 +182,24 @@ class NextViewController: UIViewController {
         present(alertController, animated: true)
     }
     
-    //文字列時刻取得用メソッド
+    //文字列時刻取得用メソッド①
     func format(date:Date)->String{
         
         let dateformatter = DateFormatter()
-        dateformatter.dateFormat = "yyyy年MM月dd日HH時mm分"
+        dateformatter.dateFormat = DateFormatter.dateFormat(fromTemplate: "yMdHm", options: 0, locale: Locale(identifier: "ja_JP"))
         let strDate = dateformatter.string(from: date)
-        
         return strDate
-        
     }
     
+    //文字列時刻取得用メソッド②(タスク名表示用)
+    func formatforDetailView(date:Date)->String{
+        
+        let dateformatter = DateFormatter()
+        dateformatter.dateFormat = DateFormatter.dateFormat(fromTemplate: "ydMMMhm", options: 0, locale: Locale(identifier: "ja_JP"))
+        let strDate = dateformatter.string(from: date)
+        return strDate
     }
-
-
+    }
 
 
 
