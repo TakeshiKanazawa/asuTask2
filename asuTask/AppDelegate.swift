@@ -27,12 +27,28 @@ class AppDelegate: UIResponder,UIApplicationDelegate {
         return true
     }
     
+<<<<<<< HEAD
     //アプリを閉じたときに呼ばれる
     func applicationDidEnterBackground(_ application: UIApplication) {
               
     }
     
     //アプリを閉じそうなときに呼ばれるメソッド
+=======
+    
+    func applicationDidEnterBackground(_ application: UIApplication) {
+                
+    }
+    
+    
+    
+//    func setDateSystem(date: Date) {
+//        dateTime = date
+//    }
+//
+    
+    
+>>>>>>> 4492bf0ae93e87b6464c75b8c41c64062b858900
     func applicationWillResignActive(_ application: UIApplication) {
         
     }
@@ -55,6 +71,8 @@ class AppDelegate: UIResponder,UIApplicationDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         completionHandler([.alert, .badge, .sound])
     }
+    
+    
 }
 
 

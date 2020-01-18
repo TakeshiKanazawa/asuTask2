@@ -364,7 +364,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         var isFirst = true
         //デリゲートメソッドを設定
         UNUserNotificationCenter.current().delegate = self
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { (granted, error) in
+        //Push通知の許可を表示(アラート、サウンド、バッジ)
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { (granted, error) in
             self.notificationGranted = granted
 
             if let error = error {
@@ -413,6 +414,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         //通知をセット
         UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
         
+<<<<<<< HEAD
+=======
+         UIApplication.shared.applicationIconBadgeNumber += 1
+
+>>>>>>> 4492bf0ae93e87b6464c75b8c41c64062b858900
     }
    
     //値を次の画面へ渡す処理
