@@ -14,7 +14,7 @@ import RealmSwift
 
 class User: Object {
     @objc dynamic var id:String = "0"
-    @objc dynamic var doneTask: Int = 27
+    @objc dynamic var doneTask: Int = 10000
     @objc dynamic var level: Int = 1
     @objc dynamic var status: String = "モンスターのたまご"
     

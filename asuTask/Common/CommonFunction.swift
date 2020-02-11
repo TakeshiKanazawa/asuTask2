@@ -160,7 +160,7 @@ class CommonFunction: NSObject {
                    }
                    return(level,status,levelBool)
             //★タスクレベル9(タスク完了件数が　250件以上339以下)
-        case 250...339:
+        case 250...:
             level = 9
                    status = "ドラゴンモンスター"
                    if doneTaskCount == 250 {

@@ -10,12 +10,6 @@ import UIKit
 import UserNotifications
 import RealmSwift
 
-extension Date {
-    //引数で指定した日付からの秒数を返す
-    func seconds(from date: Date) -> Int {
-        return Calendar.current.dateComponents([.second], from: date, to: self).second ?? 0
-    }
-}
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UNUserNotificationCenterDelegate, UIGestureRecognizerDelegate {
 
@@ -33,7 +27,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var usersLevelLavel: UILabel!
     //レベルごとのステータスを表示するアイコン
     @IBOutlet weak var usersImageIcon: UIImageView!
-    //リターンキーが押されたかどうかを判定する
+    //レベルごとのステータス名を表示するラベル
+    @IBOutlet weak var usersStatusLabel: UILabel!
+//リターンキーが押されたかどうかを判定する
     @IBOutlet weak var settingButton: UIButton!
     var textFieldTouchReturnKey = false
     //タスク名を入れる配列
@@ -103,12 +99,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
          //ユーザLevel表示
         let status = userStatus?.first?.status
-        print(status)
+        print(status!)
         let level = userStatus?.first!.level
         
         usersLevelLavel.text = "\(level!)"
          let myImage = UIImage(named:"\(status!)")
          usersImageIcon.image = myImage
+        usersStatusLabel.text = "\(status!)"
         
         //テーブルビューの枠線
         tableView.separatorColor = .black
