@@ -3,10 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		10AF5BCFDE683EF263097B7D /* Pods_asuTask.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7626D7D828462F30DFECD34F /* Pods_asuTask.framework */; };
 		3904B96B234600D30048BCA2 /* TaskMemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3904B96A234600D20048BCA2 /* TaskMemoController.swift */; };
 		393A0DA3235200290016DB7B /* TomorrowsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393A0DA2235200290016DB7B /* TomorrowsViewController.swift */; };
 		393FA754233F05E500ADBF01 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393FA753233F05E500ADBF01 /* AppDelegate.swift */; };
@@ -15,9 +16,15 @@
 		393FA75E233F05EC00ADBF01 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 393FA75C233F05EC00ADBF01 /* LaunchScreen.storyboard */; };
 		393FA766233F21D600ADBF01 /* NextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393FA765233F21D600ADBF01 /* NextViewController.swift */; };
 		393FA768234098D900ADBF01 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 393FA767234098D900ADBF01 /* Assets.xcassets */; };
+		3973F61123F23B28008ED34A /* LevelUpModalForDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3973F61023F23B28008ED34A /* LevelUpModalForDetailViewController.swift */; };
+		3977CFDA23DEBD8E00D32F3D /* LevelUpModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3977CFD923DEBD8E00D32F3D /* LevelUpModalViewController.swift */; };
 		397CF76C23434D4B0087D9A5 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 397CF76B23434D4B0087D9A5 /* DetailViewController.swift */; };
 		397D01CD2350714600289A13 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 397D01CC2350714500289A13 /* SettingViewController.swift */; };
 		39A3199F235368E000F597D3 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39A3199E235368E000F597D3 /* MessageUI.framework */; };
+		39E8B0A423E6D40A00C169FB /* CommonFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E8B0A323E6D40A00C169FB /* CommonFunction.swift */; };
+		39E8B0A623E6E0DB00C169FB /* TodaysTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E8B0A523E6E0DB00C169FB /* TodaysTask.swift */; };
+		39E8B0A923E7C06300C169FB /* Realm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E8B0A823E7C06300C169FB /* Realm.swift */; };
+		39E8B0AB23E8613B00C169FB /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E8B0AA23E8613A00C169FB /* User.swift */; };
 		39E8EACF2393B0120019B0BD /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E8EACE2393B0120019B0BD /* CustomTableViewCell.swift */; };
 		39E8EAD12393BC770019B0BD /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E8EAD02393BC770019B0BD /* CheckBox.swift */; };
 /* End PBXBuildFile section */
@@ -33,11 +40,20 @@
 		393FA75F233F05EC00ADBF01 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		393FA765233F21D600ADBF01 /* NextViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextViewController.swift; sourceTree = "<group>"; };
 		393FA767234098D900ADBF01 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		3973F61023F23B28008ED34A /* LevelUpModalForDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelUpModalForDetailViewController.swift; sourceTree = "<group>"; };
+		3977CFD923DEBD8E00D32F3D /* LevelUpModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelUpModalViewController.swift; sourceTree = "<group>"; };
 		397CF76B23434D4B0087D9A5 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		397D01CC2350714500289A13 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		39A3199E235368E000F597D3 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		39CDF67F8A609501CBE47581 /* Pods-asuTask.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-asuTask.debug.xcconfig"; path = "Target Support Files/Pods-asuTask/Pods-asuTask.debug.xcconfig"; sourceTree = "<group>"; };
+		39E8B0A323E6D40A00C169FB /* CommonFunction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonFunction.swift; sourceTree = "<group>"; };
+		39E8B0A523E6E0DB00C169FB /* TodaysTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodaysTask.swift; sourceTree = "<group>"; };
+		39E8B0A823E7C06300C169FB /* Realm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Realm.swift; sourceTree = "<group>"; };
+		39E8B0AA23E8613A00C169FB /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		39E8EACE2393B0120019B0BD /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 		39E8EAD02393BC770019B0BD /* CheckBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBox.swift; sourceTree = "<group>"; };
+		7626D7D828462F30DFECD34F /* Pods_asuTask.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_asuTask.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BB93E00E16C4B675BE821E00 /* Pods-asuTask.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-asuTask.release.xcconfig"; path = "Target Support Files/Pods-asuTask/Pods-asuTask.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,6 +62,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				39A3199F235368E000F597D3 /* MessageUI.framework in Frameworks */,
+				10AF5BCFDE683EF263097B7D /* Pods_asuTask.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -58,6 +75,7 @@
 				393FA752233F05E500ADBF01 /* asuTask */,
 				393FA751233F05E500ADBF01 /* Products */,
 				39A3199D235368DF00F597D3 /* Frameworks */,
+				46D3604AC1398D2594A238E2 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -72,19 +90,14 @@
 		393FA752233F05E500ADBF01 /* asuTask */ = {
 			isa = PBXGroup;
 			children = (
-				393FA753233F05E500ADBF01 /* AppDelegate.swift */,
-				393FA755233F05E500ADBF01 /* ViewController.swift */,
-				393FA765233F21D600ADBF01 /* NextViewController.swift */,
-				397CF76B23434D4B0087D9A5 /* DetailViewController.swift */,
-				3904B96A234600D20048BCA2 /* TaskMemoController.swift */,
-				397D01CC2350714500289A13 /* SettingViewController.swift */,
-				393A0DA2235200290016DB7B /* TomorrowsViewController.swift */,
-				393FA757233F05E500ADBF01 /* Main.storyboard */,
+				39E8B0A723E7C02F00C169FB /* Realm */,
+				39E8B0A223E6D30D00C169FB /* Resource */,
+				39E8B0A123E6D30000C169FB /* Common */,
+				39E8B09A23E6BF6800C169FB /* Model */,
+				39E8B09B23E6BF8000C169FB /* View */,
+				39E8B09C23E6BF8A00C169FB /* Controller */,
 				393FA75C233F05EC00ADBF01 /* LaunchScreen.storyboard */,
-				393FA767234098D900ADBF01 /* Assets.xcassets */,
 				393FA75F233F05EC00ADBF01 /* Info.plist */,
-				39E8EACE2393B0120019B0BD /* CustomTableViewCell.swift */,
-				39E8EAD02393BC770019B0BD /* CheckBox.swift */,
 			);
 			path = asuTask;
 			sourceTree = "<group>";
@@ -93,8 +106,77 @@
 			isa = PBXGroup;
 			children = (
 				39A3199E235368E000F597D3 /* MessageUI.framework */,
+				7626D7D828462F30DFECD34F /* Pods_asuTask.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		39E8B09A23E6BF6800C169FB /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				39E8EACE2393B0120019B0BD /* CustomTableViewCell.swift */,
+				39E8EAD02393BC770019B0BD /* CheckBox.swift */,
+				39E8B0A523E6E0DB00C169FB /* TodaysTask.swift */,
+				39E8B0AA23E8613A00C169FB /* User.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		39E8B09B23E6BF8000C169FB /* View */ = {
+			isa = PBXGroup;
+			children = (
+				393FA757233F05E500ADBF01 /* Main.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		39E8B09C23E6BF8A00C169FB /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				3977CFD923DEBD8E00D32F3D /* LevelUpModalViewController.swift */,
+				393FA753233F05E500ADBF01 /* AppDelegate.swift */,
+				393FA755233F05E500ADBF01 /* ViewController.swift */,
+				393FA765233F21D600ADBF01 /* NextViewController.swift */,
+				397CF76B23434D4B0087D9A5 /* DetailViewController.swift */,
+				3904B96A234600D20048BCA2 /* TaskMemoController.swift */,
+				397D01CC2350714500289A13 /* SettingViewController.swift */,
+				393A0DA2235200290016DB7B /* TomorrowsViewController.swift */,
+				3973F61023F23B28008ED34A /* LevelUpModalForDetailViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		39E8B0A123E6D30000C169FB /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				39E8B0A323E6D40A00C169FB /* CommonFunction.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		39E8B0A223E6D30D00C169FB /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				393FA767234098D900ADBF01 /* Assets.xcassets */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
+		39E8B0A723E7C02F00C169FB /* Realm */ = {
+			isa = PBXGroup;
+			children = (
+				39E8B0A823E7C06300C169FB /* Realm.swift */,
+			);
+			path = Realm;
+			sourceTree = "<group>";
+		};
+		46D3604AC1398D2594A238E2 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				39CDF67F8A609501CBE47581 /* Pods-asuTask.debug.xcconfig */,
+				BB93E00E16C4B675BE821E00 /* Pods-asuTask.release.xcconfig */,
+			);
+			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -104,9 +186,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 393FA762233F05EC00ADBF01 /* Build configuration list for PBXNativeTarget "asuTask" */;
 			buildPhases = (
+				FF8790138526A14310859E31 /* [CP] Check Pods Manifest.lock */,
 				393FA74C233F05E500ADBF01 /* Sources */,
 				393FA74D233F05E500ADBF01 /* Frameworks */,
 				393FA74E233F05E500ADBF01 /* Resources */,
+				8C3B815FFC01B79F58476E94 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -163,19 +247,67 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		8C3B815FFC01B79F58476E94 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-asuTask/Pods-asuTask-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-asuTask/Pods-asuTask-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-asuTask/Pods-asuTask-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FF8790138526A14310859E31 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-asuTask-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		393FA74C233F05E500ADBF01 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3977CFDA23DEBD8E00D32F3D /* LevelUpModalViewController.swift in Sources */,
 				3904B96B234600D30048BCA2 /* TaskMemoController.swift in Sources */,
+				39E8B0A923E7C06300C169FB /* Realm.swift in Sources */,
 				393A0DA3235200290016DB7B /* TomorrowsViewController.swift in Sources */,
 				39E8EAD12393BC770019B0BD /* CheckBox.swift in Sources */,
+				39E8B0A623E6E0DB00C169FB /* TodaysTask.swift in Sources */,
 				39E8EACF2393B0120019B0BD /* CustomTableViewCell.swift in Sources */,
+				39E8B0AB23E8613B00C169FB /* User.swift in Sources */,
 				393FA756233F05E500ADBF01 /* ViewController.swift in Sources */,
 				393FA766233F21D600ADBF01 /* NextViewController.swift in Sources */,
 				393FA754233F05E500ADBF01 /* AppDelegate.swift in Sources */,
+				3973F61123F23B28008ED34A /* LevelUpModalForDetailViewController.swift in Sources */,
 				397CF76C23434D4B0087D9A5 /* DetailViewController.swift in Sources */,
+				39E8B0A423E6D40A00C169FB /* CommonFunction.swift in Sources */,
 				397D01CD2350714600289A13 /* SettingViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -320,10 +452,11 @@
 		};
 		393FA763233F05EC00ADBF01 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 39CDF67F8A609501CBE47581 /* Pods-asuTask.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = UN8UZKY2BZ;
+				DEVELOPMENT_TEAM = 8CF5UBGL4X;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				"GCC_OPTIMIZATION_LEVEL[arch=*]" = 0;
 				INFOPLIST_FILE = asuTask/Info.plist;
@@ -332,7 +465,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = jp.hotmail.oseans.asuTask;
+				PRODUCT_BUNDLE_IDENTIFIER = jp.hotmail.oseans.asuTask2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -341,17 +474,18 @@
 		};
 		393FA764233F05EC00ADBF01 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BB93E00E16C4B675BE821E00 /* Pods-asuTask.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = UN8UZKY2BZ;
+				DEVELOPMENT_TEAM = 8CF5UBGL4X;
 				INFOPLIST_FILE = asuTask/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = jp.hotmail.oseans.asuTask;
+				PRODUCT_BUNDLE_IDENTIFIER = jp.hotmail.oseans.asuTask2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
