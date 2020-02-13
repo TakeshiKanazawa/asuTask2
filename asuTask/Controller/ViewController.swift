@@ -10,13 +10,6 @@ import UIKit
 import UserNotifications
 import RealmSwift
 
-extension Date {
-    //引数で指定した日付からの秒数を返す
-    func seconds(from date: Date) -> Int {
-        return Calendar.current.dateComponents([.second], from: date, to: self).second ?? 0
-    }
-}
-
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UNUserNotificationCenterDelegate, UIGestureRecognizerDelegate {
 
     //Realm
@@ -77,14 +70,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         //TodaysTaskクラスに永続化されているデータを取りだす
         do {
             let realm = try Realm()
             todaysTaskItem = realm.objects(TodaysTask.self)
             userStatus = realm.objects(User.self)
-            tableView.reloadData()
-        } catch {            print("RealmからTodaysTaskのデータを読み込めませんでした")
+            //tableView.reloadData()
+        } catch { print("RealmからTodaysTaskのデータを読み込めませんでした")
         }
         //もしユーザクラス作成がまだなら
         if userFlg != true {
@@ -101,15 +94,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             }
         }
 
-         //ユーザLevel表示
+        //ユーザLevel表示
         let status = userStatus?.first?.status
-        print(status)
         let level = userStatus?.first!.level
-        
+
         usersLevelLavel.text = "\(level!)"
-         let myImage = UIImage(named:"\(status!)")
-         usersImageIcon.image = myImage
-        
+        let myImage = UIImage(named: "\(status!)")
+        usersImageIcon.image = myImage
+
         //テーブルビューの枠線
         tableView.separatorColor = .black
         //タップでキーボード閉じる
@@ -160,7 +152,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
     //viewが表示される直前の処理
     override func viewWillAppear(_ animated: Bool) {
-        
+
         self.loadView()
         self.viewDidLoad()
         //インディケータの回転停止
@@ -194,7 +186,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
         //セルにタスク名をset
         cell.setCell(titleText: object.name)
-        
+
         //タスク通知リマインド用画像
         let alarmclockImage = UIImage(named: "alarmClock")! as UIImage
         let alarmImage = UIImage(named: "alarm")! as UIImage
@@ -241,7 +233,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     //セルが選択(タップ)された時
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         textFieldTouchReturnKey = false
-        
+
         //セルのハイライト解除
         tableView.deselectRow(at: indexPath, animated: true)
         //変数indexNumberにセル番号を代入
@@ -351,20 +343,20 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 let realm = try Realm()
                 let user = realm.object(ofType: User.self, forPrimaryKey: "0")
 
-                try realm.write{
+                try realm.write {
                     user?.level = userLevel
                     user?.status = userStatus
                     user?.doneTask = doneTaskCount!
-                   print("ユーザデータ更新完了")
+                    print("ユーザデータ更新完了")
                 }
-            }catch{
+            } catch {
                 print("ユーザデータ更新失敗")
             }
             //タスク完了数が条件と合致すれば画面遷移
-              if levelBool {
-                  //レベルアップ画面に遷移
-                  self.performSegue(withIdentifier: "levelUp", sender: nil)
-              }
+            if levelBool {
+                //レベルアップ画面に遷移
+                self.performSegue(withIdentifier: "levelUp", sender: nil)
+            }
             //削除メソッドの呼び出し
             delete()
             self.loadView()
@@ -373,7 +365,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
         deleteButton.backgroundColor = UIColor.red
         doneButton.backgroundColor = UIColor.blue
-        
+
         return [deleteButton, doneButton]
     }
 

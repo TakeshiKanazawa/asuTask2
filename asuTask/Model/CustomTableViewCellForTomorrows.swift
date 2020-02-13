@@ -8,11 +8,9 @@
 
 import UIKit
 
-class CustomTableViewCell: UITableViewCell {
+class CustomTableViewCellForTomorrows: UITableViewCell {
    
-
-
-    @IBOutlet weak var cellImage: UIImageView!
+   @IBOutlet weak var cellImage: UIImageView!
     @IBOutlet weak var taskTextLabel: UILabel!
     @IBOutlet weak var coinImage: UIImageView!
     @IBOutlet weak var taskNotificationImage: UIImageView!

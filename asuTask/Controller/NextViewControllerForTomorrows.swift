@@ -10,14 +10,7 @@ import UIKit
 import RealmSwift
 import UserNotifications
 
-extension Date {
-    //引数で指定した日付からの秒数を返す
-    func seconds(from date: Date) -> Int {
-        return Calendar.current.dateComponents([.second], from: date, to: self).second ?? 0
-    }
-}
-
-class NextViewController: UIViewController {
+class NextViewControllerForTomorrows: UIViewController {
 
     //UserDefaultsの参照
     let userDefaults = UserDefaults.standard
@@ -47,8 +40,25 @@ class NextViewController: UIViewController {
         taskNameTextField.text = taskNameString
         //Datepicker無効化
         taskDatePicker.isEnabled = false
-        //最小日時を現在時刻に設定
-        taskDatePicker.minimumDate = Date()
+
+        //カレンダーオブジェクト取得
+        let calendar = Calendar.current
+        //デートオブジェクト取得
+        let date = Date()
+        //翌日の日付取得
+        let day_tomorrow = calendar.date(
+            byAdding: .day, value: 1, to: calendar.startOfDay(for: date))
+        //翌々日の日付取得
+        let dayAfterTomorrow = calendar.date(
+            byAdding: .day, value: 2, to: calendar.startOfDay(for: date))
+
+        //最小日時を翌日に設定
+        taskDatePicker.minimumDate = day_tomorrow
+        //最大日時を翌翌日に設定(datepickerでは選択できない)
+        taskDatePicker.maximumDate = dayAfterTomorrow
+
+
+
     }
 
     //タスク通知セグメント設定
@@ -103,55 +113,55 @@ class NextViewController: UIViewController {
             let taskTimeForDetailView = CommonFunction.formatforDetailView(date: taskDatePicker!.date)
 
             //ここでRMに接続し、データの保存を行う
-            let newTodaysTask = TodaysTask()
-            newTodaysTask.name = taskNameTextField.text!
-            newTodaysTask.time = taskTime
-            newTodaysTask.timeForDetail = taskTimeForDetailView
-            newTodaysTask.priority = taskPriority
-            newTodaysTask.id = taskId
-            
-            //let newUsersData = User()
-            
+            let newTomorrowsTask = TomorrowsTask()
+            newTomorrowsTask.name = taskNameTextField.text!
+            newTomorrowsTask.time = taskTime
+            newTomorrowsTask.timeForDetail = taskTimeForDetailView
+            newTomorrowsTask.priority = taskPriority
+            newTomorrowsTask.id = taskId
+
+            // let newUsersData = User()
+
 
             do {
                 let realm = try Realm()
                 try realm.write({ () -> Void in
-                    realm.add(newTodaysTask)
-                   // realm.add(newUsersData)
+                    realm.add(newTomorrowsTask)
+                    // realm.add(newUsersData)
                     print("本日のタスク1件保存完了")
                 })
             } catch {
                 print("本日のタスク1件保存失敗")
             }
-            print(newTodaysTask)
+            print(newTomorrowsTask)
 
             dismiss(animated: true, completion: nil)
             //もしタスク通知がfalseなら。Viewコントローラーのtextarrayに仮値をappend
         } else if taskNotification == false {
 
             //ここでRMに接続し、データの保存を行う
-            let newTodaysTask = TodaysTask()
-            newTodaysTask.name = taskNameTextField.text!
-            newTodaysTask.time = taskTime
-            newTodaysTask.timeForDetail = taskTimeForDetailView
-            newTodaysTask.priority = taskPriority
-            newTodaysTask.id = taskId
-            
-        
+            let newTomorrowsTask = TomorrowsTask()
+            newTomorrowsTask.name = taskNameTextField.text!
+            newTomorrowsTask.time = taskTime
+            newTomorrowsTask.timeForDetail = taskTimeForDetailView
+            newTomorrowsTask.priority = taskPriority
+            newTomorrowsTask.id = taskId
 
-    //DB接続
+
+
+            //DB接続
 
             do {
                 let realm = try Realm()
                 try realm.write({ () -> Void in
-                    realm.add(newTodaysTask)
-                
+                    realm.add(newTomorrowsTask)
+
                     print("本日のタスク1件保存完了")
                 })
             } catch {
                 print("本日のタスク1件保存失敗")
             }
-            print(newTodaysTask)
+            print(newTomorrowsTask)
             dismiss(animated: true, completion: nil)
         }
     }
@@ -194,12 +204,12 @@ class NextViewController: UIViewController {
     func setNotification(date: Date) {
         //コンテントバッジをインクリメント
         contentBadgeInt += 1
-        
+
         //UDの参照
         let userDefaults = UserDefaults.standard
         //UDにコンテントバッジの設定を保存
         userDefaults.set(contentBadgeInt, forKey: "contentBadge")
-        
+
         //通知日時の設定
         var trigger: UNNotificationTrigger
         //noticficationtimeにdatepickerで取得した値をset
