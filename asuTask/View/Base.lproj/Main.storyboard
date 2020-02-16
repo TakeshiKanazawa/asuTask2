@@ -149,7 +149,7 @@
             <objects>
                 <viewController storyboardIdentifier="next" useStoryboardIdentifierAsRestorationIdentifier="YES" id="uHD-aB-j8v" customClass="NextViewController" customModule="asuTask" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="vrM-0H-RUx">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WfZ-8i-WU0">
@@ -431,7 +431,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7DZ-Nv-Uv1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3175" y="752"/>
+            <point key="canvasLocation" x="2796" y="842"/>
         </scene>
         <!--TaskMemoController-->
         <scene sceneID="ytA-m9-GnK">
@@ -441,12 +441,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="8OA-I4-kUk">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="561"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="8OA-I4-kUk">
+                                <rect key="frame" x="0.0" y="65" width="375" height="496"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="75" id="0r8-OM-BhG">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="TaskMemoCell" rowHeight="75" id="0r8-OM-BhG">
                                         <rect key="frame" x="0.0" y="28" width="375" height="75"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="0r8-OM-BhG" id="JAb-yY-iAP">
@@ -464,11 +464,22 @@
                                     <segue destination="uHD-aB-j8v" kind="presentation" id="z6C-n6-FdW"/>
                                 </connections>
                             </button>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" placeholder="タスクを入力" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5Oi-8p-JL2">
+                                <rect key="frame" x="26" y="20" width="323" height="41"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="RvT-nq-uLs"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="タスクメモ" image="Taskmemo2" id="R6z-LX-nGD"/>
+                    <connections>
+                        <outlet property="tableView" destination="8OA-I4-kUk" id="Xla-5C-nfA"/>
+                        <outlet property="textField" destination="5Oi-8p-JL2" id="seX-3D-ial"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0Pv-Qi-h89" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -858,7 +869,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zKW-EB-RAZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3217" y="1586"/>
+            <point key="canvasLocation" x="2796" y="1586"/>
         </scene>
         <!--Next View Controller For Tomorrows-->
         <scene sceneID="PJK-OL-Fdd">
@@ -966,7 +977,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HSV-Bm-53C" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2902" y="612"/>
+            <point key="canvasLocation" x="2751" y="45"/>
         </scene>
     </scenes>
     <resources>
@@ -982,7 +993,7 @@
         <segue reference="I7y-Ng-cO3"/>
         <segue reference="GdQ-zy-Etv"/>
         <segue reference="e1b-nF-NCt"/>
-        <segue reference="ugC-s5-Ujk"/>
+        <segue reference="z6C-n6-FdW"/>
         <segue reference="EoI-Ho-Tkq"/>
     </inferredMetricsTieBreakers>
 </document>

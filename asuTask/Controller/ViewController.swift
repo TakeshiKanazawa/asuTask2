@@ -29,8 +29,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     //リターンキーが押されたかどうかを判定する
     @IBOutlet weak var settingButton: UIButton!
     var textFieldTouchReturnKey = false
-    //タスク名を入れる配列
-    var textArray = [String]()
 //    //選択されたセルの番号を入れるための変数
     var indexNumber = Int()
     //入力されたタスクを入れる変数
@@ -386,7 +384,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             //タップした時にその配列の番号の中身を取り出して値を渡す
             let nextVC = segue.destination as! NextViewController
             //変数名.が持つ変数 =  渡したいものが入った変数
-            nextVC.taskNameString = textArray[indexNumber]
+            //nextVC.taskNameString = textArray[indexNumber]
         } else if (segue.identifier == "next") && textFieldTouchReturnKey == true {
             //タップした時にその配列の番号の中身を取り出して値を渡す
             let nextVC = segue.destination as! NextViewController

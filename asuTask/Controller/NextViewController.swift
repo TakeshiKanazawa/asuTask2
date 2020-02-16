@@ -10,12 +10,7 @@ import UIKit
 import RealmSwift
 import UserNotifications
 
-extension Date {
-    //引数で指定した日付からの秒数を返す
-    func seconds(from date: Date) -> Int {
-        return Calendar.current.dateComponents([.second], from: date, to: self).second ?? 0
-    }
-}
+
 
 class NextViewController: UIViewController {
 

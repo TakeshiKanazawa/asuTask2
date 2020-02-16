@@ -16,6 +16,13 @@ var doneTaskCount = 1
 //ユーザクラス作成フラグ
 var userFlg = false
 
+extension Date {
+    //引数で指定した日付からの秒数を返す
+    func seconds(from date: Date) -> Int {
+        return Calendar.current.dateComponents([.second], from: date, to: self).second ?? 0
+    }
+}
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     

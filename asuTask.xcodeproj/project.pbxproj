@@ -24,6 +24,7 @@
 		397CF76C23434D4B0087D9A5 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 397CF76B23434D4B0087D9A5 /* DetailViewController.swift */; };
 		397D01CD2350714600289A13 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 397D01CC2350714500289A13 /* SettingViewController.swift */; };
 		39A3199F235368E000F597D3 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39A3199E235368E000F597D3 /* MessageUI.framework */; };
+		39D8AF2F23F6DD110083C408 /* TaskMemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D8AF2E23F6DD110083C408 /* TaskMemo.swift */; };
 		39E8B0A423E6D40A00C169FB /* CommonFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E8B0A323E6D40A00C169FB /* CommonFunction.swift */; };
 		39E8B0A623E6E0DB00C169FB /* TodaysTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E8B0A523E6E0DB00C169FB /* TodaysTask.swift */; };
 		39E8B0A923E7C06300C169FB /* Realm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E8B0A823E7C06300C169FB /* Realm.swift */; };
@@ -52,6 +53,7 @@
 		397D01CC2350714500289A13 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		39A3199E235368E000F597D3 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		39CDF67F8A609501CBE47581 /* Pods-asuTask.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-asuTask.debug.xcconfig"; path = "Target Support Files/Pods-asuTask/Pods-asuTask.debug.xcconfig"; sourceTree = "<group>"; };
+		39D8AF2E23F6DD110083C408 /* TaskMemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskMemo.swift; sourceTree = "<group>"; };
 		39E8B0A323E6D40A00C169FB /* CommonFunction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonFunction.swift; sourceTree = "<group>"; };
 		39E8B0A523E6E0DB00C169FB /* TodaysTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodaysTask.swift; sourceTree = "<group>"; };
 		39E8B0A823E7C06300C169FB /* Realm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Realm.swift; sourceTree = "<group>"; };
@@ -126,6 +128,7 @@
 				39E8B0AA23E8613A00C169FB /* User.swift */,
 				3979EEED23F4F7B20055F0F6 /* TomorrowsTask.swift */,
 				3979EEEF23F4F8930055F0F6 /* CustomTableViewCellForTomorrows.swift */,
+				39D8AF2E23F6DD110083C408 /* TaskMemo.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -321,6 +324,7 @@
 				3979EEEE23F4F7B20055F0F6 /* TomorrowsTask.swift in Sources */,
 				39E8B0A423E6D40A00C169FB /* CommonFunction.swift in Sources */,
 				397D01CD2350714600289A13 /* SettingViewController.swift in Sources */,
+				39D8AF2F23F6DD110083C408 /* TaskMemo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
