@@ -11,6 +11,7 @@ import StoreKit
 import MessageUI
 import UserNotifications
 
+//Push Notification Flg
 var nortificationFlg = false
 
 class SettingViewController: UIViewController, MFMailComposeViewControllerDelegate, UNUserNotificationCenterDelegate {
@@ -21,41 +22,40 @@ class SettingViewController: UIViewController, MFMailComposeViewControllerDelega
     @IBOutlet weak var dailyTaskNotificationDatePicker: UIDatePicker!
 
     override func viewDidLoad() {
-      
+        //datePicker無効化(初期表示)
+        dailyTaskNotificationDatePicker.isEnabled = false
         //UserDefaultsの参照
         let userDefaults = UserDefaults.standard
-        
         //UDに保存値があれば取り出し
-        if let settingTime = userDefaults.object(forKey: "settingTime")  {
+        if let settingTime = userDefaults.object(forKey: "settingTime") {
             dailyTaskNotificationDatePicker.date = settingTime as! Date
-          }
-        
-        if let pickerImage = userDefaults.object(forKey: "pickerImage")  {
+        }
+        if let pickerImage = userDefaults.object(forKey: "pickerImage") {
             dailyTaskNotificationDatePicker.isEnabled = pickerImage as! Bool
-            }
-
-        if let settingSegment = userDefaults.object(forKey: "settingSegment")  {
+        }
+        if let settingSegment = userDefaults.object(forKey: "settingSegment") {
             segmentControl.selectedSegmentIndex = settingSegment as! Int
-            }
-
+        }
+        if let userFlg = userDefaults.object(forKey: "userFlg") {
+            nortificationFlg = userFlg as! Bool
+        }
         super.viewDidLoad()
     }
 
     //タスク作成お忘れ防止通知セグメント
     @IBAction func dailyTaskNotificationSegment(_ sender: Any) {
-
         switch (sender as AnyObject).selectedSegmentIndex {
         case 0: //Daily通知しない
             //タスク通知のdatepickerを無効化
             dailyTaskNotificationDatePicker.isEnabled = false
             segmentControl.selectedSegmentIndex = 0
             nortificationFlg = false
-            
         case 1: //Daily通知する
             //タスク通知のdatepickerを有効化
             dailyTaskNotificationDatePicker.isEnabled = true
             segmentControl.selectedSegmentIndex = 1
             nortificationFlg = true
+            print(nortificationFlg)
         default:
             segmentControl.selectedSegmentIndex = 0
             nortificationFlg = false
@@ -64,26 +64,27 @@ class SettingViewController: UIViewController, MFMailComposeViewControllerDelega
     }
 
     //セッティング画面終了ボタン
-     @IBAction func doneSetting(_ sender: Any) {
-         //UserDefaultsの参照
-         let userDefaults = UserDefaults.standard
-         //残しておきたい設定を保存する
-         userDefaults.set(segmentControl.selectedSegmentIndex, forKey: "settingSegment")
-         userDefaults.set(dailyTaskNotificationDatePicker.date, forKey: "settingTime")
-         userDefaults.set(dailyTaskNotificationDatePicker.isEnabled, forKey: "pickerImage")
+    @IBAction func doneSetting(_ sender: Any) {
+        //UserDefaultsの参照
+        let userDefaults = UserDefaults.standard
+        //残しておきたい設定を保存する
+        userDefaults.set(segmentControl.selectedSegmentIndex, forKey: "settingSegment")
+        userDefaults.set(dailyTaskNotificationDatePicker.date, forKey: "settingTime")
+        userDefaults.set(dailyTaskNotificationDatePicker.isEnabled, forKey: "pickerImage")
+        userDefaults.set(nortificationFlg, forKey: "userFlg")
 
-         //タスク通知があれば登録
-         if nortificationFlg
-         {
-         setDairyTaskNotification()
-         } else {
+        //タスク通知があれば登録
+        if nortificationFlg
+        {
+            setDairyTaskNotification()
+        } else {
             //登録済みのdaily通知を削除
             let center = UNUserNotificationCenter.current()
             center.removePendingNotificationRequests(withIdentifiers: ["dailyNotification"])
         }
-         dismiss(animated: true, completion: nil)
+        dismiss(animated: true, completion: nil)
 
-     }
+    }
 
     //お問い合わせメーラー起動ボタン
     @IBAction func contact(_ sender: Any) {
@@ -101,13 +102,12 @@ class SettingViewController: UIViewController, MFMailComposeViewControllerDelega
 
     // アプリのレビュー画面へ遷移ボタン
     @IBAction func review(_ sender: Any) {
-
-        // TODO: app idが現在未登録のため仮番号。発行次第正しいものへ変更
-        let MY_APP_ID = "1274048262"
+//App IDの指定
+        let MY_APP_ID = "1500185504"
         //レビュータブを開くためのURLを指定する
-        // TODO: app idが現在未登録のため仮番号。発行次第正しいものへ変更
+
         let urlString =
-            "itms-apps://itunes.apple.com/jp/app/id\(1274048262)?mt=8&action=write-review"
+            "itms-apps://itunes.apple.com/jp/app/id\(MY_APP_ID)?mt=8&action=write-review"
         if let url = URL(string: urlString) {
             if #available(iOS 10.0, *) {
                 UIApplication.shared.open(url, options: [:])
@@ -140,7 +140,7 @@ class SettingViewController: UIViewController, MFMailComposeViewControllerDelega
         forSetnotificationTime.minute = intNotificationMinute
 
         //triggerに現在時刻から〇〇秒後のタスク実行時間をset
-        trigger = UNCalendarNotificationTrigger(dateMatching: forSetnotificationTime, repeats: false)
+        trigger = UNCalendarNotificationTrigger(dateMatching: forSetnotificationTime, repeats: true)
         //タスク通知内容の設定
         let content = UNMutableNotificationContent()
         content.title = "明日のタスクを確認しましょう"
@@ -165,6 +165,6 @@ class SettingViewController: UIViewController, MFMailComposeViewControllerDelega
         }
         dismiss(animated: true, completion: nil)
     }
-    
+
 }
 

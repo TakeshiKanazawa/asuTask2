@@ -15,7 +15,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     //Realm
     var todaysTaskItem: Results<TodaysTask>!
     var userStatus: Results<User>!
-
     //タスク入力用テキストフィールド
     @IBOutlet weak var textField: UITextField!
     //テーブルビュー
@@ -33,7 +32,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var indexNumber = Int()
     //入力されたタスクを入れる変数
     var editText = String()
-
+    //userクラス作成切り分けフラグ
+    var userFlg = Bool()
 
     var refreshControl: UIRefreshControl!
     var isRefresh = false
@@ -43,6 +43,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     {
         refreshControl.endRefreshing()
         tableView.reloadData()
+
     }
     //画面タッチでキーボード閉じる
     @objc func tapped(_ sender: UITapGestureRecognizer) {
@@ -73,18 +74,30 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         do {
             let realm = try Realm()
             todaysTaskItem = realm.objects(TodaysTask.self)
+            //本日のタスクが1件以上登録あれば、sortして表示する
+            if todaysTaskItem.count > 1 {
+                todaysTaskItem = todaysTaskItem.sorted(byKeyPath: "date")
+            }
             userStatus = realm.objects(User.self)
-            //tableView.reloadData()
-        } catch { print("RealmからTodaysTaskのデータを読み込めませんでした")
+
+        } catch {
+            print("RealmからTodaysTaskのデータを読み込めませんでした")
         }
         //もしユーザクラス作成がまだなら
+        //UserDefaultsから取り出し
+        var userFlg = UserDefaults.standard.bool(forKey: "userFlg")
+
         if userFlg != true {
             do {
                 let realm = try Realm()
                 let user = User()
                 try realm.write({ () -> Void in
                     realm.add(user)
+                    //userDefaultsに保存
+                    let userDefaults = UserDefaults.standard
+                    //UDのバッジの値変更
                     userFlg = true
+                    userDefaults.set(userFlg, forKey: "userFlg")
                     print("ユーザクラス作成完了")
                 })
             } catch {
@@ -129,7 +142,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         todaysTaskMessageLabel.clipsToBounds = true // labelの時は必須（角丸）
         todaysTaskMessageLabel.layer.borderWidth = 0.0 // 枠線の幅（0なので表示なし）
         todaysTaskMessageLabel.layer.borderColor = UIColor.white.cgColor // 枠線の色
-        todaysTaskMessageLabel.backgroundColor = rgba
 
         //textFieldのデザイン
         textField.borderStyle = .none
@@ -137,7 +149,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         textField.layer.borderColor = UIColor.lightGray.cgColor
         textField.layer.borderWidth = 1
         textField.layer.masksToBounds = true
-
 
         //データ更新処理用コード
         self.refreshControl = UIRefreshControl()
@@ -177,14 +188,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
     //セルを構築する際に呼ばれるメソッド
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
         //カスタムセルを使用
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! CustomTableViewCell
-        let object: TodaysTask = self.todaysTaskItem[(indexPath as NSIndexPath).row]
-
+        let object: TodaysTask = (self.todaysTaskItem?[(indexPath as NSIndexPath).row])!
         //セルにタスク名をset
         cell.setCell(titleText: object.name)
-
         //タスク通知リマインド用画像
         let alarmclockImage = UIImage(named: "alarmClock")! as UIImage
         let alarmImage = UIImage(named: "alarm")! as UIImage
@@ -231,11 +239,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     //セルが選択(タップ)された時
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         textFieldTouchReturnKey = false
-
-        //セルのハイライト解除
-        tableView.deselectRow(at: indexPath, animated: true)
         //変数indexNumberにセル番号を代入
         indexNumber = indexPath.row
+
         //タスク詳細画面へ遷移
         performSegue(withIdentifier: "detail", sender: nil)
     }
@@ -250,31 +256,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         //　削除 || 完了ボタンの共通関数
         func delete () {
             //該当セルのRealmデータオブジェクトの作成
-            let object: TodaysTask = self.todaysTaskItem[(indexPath as NSIndexPath).row]
-            //タスク通知のあるタスクかcheck
-            if object.time != "設定なし" { //登録時刻が現在時刻よりも後の場合はタスク削除時にバッジもデクリメントする。
-
-                //まず登録時刻をDate型に変換
-                let convertDate = CommonFunction.dateFromString(string: object.time, format: "yyyy/MM/dd HH:mm")
-                //現在時刻のインスタンス化
-                let now: Date = Date()
-                //登録時刻が現在時刻と過去である、もしくは同時刻であった場合
-                if convertDate <= now {
-                    //バッジをデクリメント
-                    UIApplication.shared.applicationIconBadgeNumber -= 1
-                    contentBadgeInt = UIApplication.shared.applicationIconBadgeNumber
-                    //UDの参照
-                    let userDefaults = UserDefaults.standard
-                    //UDのバッジの値変更
-                    userDefaults.set(contentBadgeInt, forKey: "contentBadge")
-                    //タスク通知ある場合はPUSH通知登録を削除
-                } else {
-
-                    let center = UNUserNotificationCenter.current()
-                    center.removePendingNotificationRequests(withIdentifiers: [object.id])
-                    print(object.id)
-                }
-            }
+            let object: TodaysTask = self.todaysTaskItem![(indexPath as NSIndexPath).row]
             //タスク通知のあるタスクかcheck
             if object.time != "設定なし" { //登録時刻が現在時刻よりも後の場合はタスク削除時にバッジもデクリメントする。
                 //まず登録時刻をDate型に変換
@@ -294,26 +276,29 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 } else {
                     let center = UNUserNotificationCenter.current()
                     center.removePendingNotificationRequests(withIdentifiers: [object.id])
-                    print(object.id)
                 }
             }
 
             //Realm接続　データ削除
             do {
                 let realm = try Realm()
-                //オブジェクトの取得
-                let results = realm.objects(TodaysTask.self)
-                print(results)
+
                 try! realm.write {
+
+                    //TaskListオブジェクトの削除
                     realm.delete(object)
                 }
                 tableView.deleteRows(at: [indexPath], with: .fade)
-                print(results)
+
             } catch {
                 print("本日のタスクを削除できませんでした")
             }
             //本日のタスク件数の再読み込み
             self.todaysTaskMessageLabelChange()
+            //sort
+            if todaysTaskItem.count > 1 {
+                todaysTaskItem = todaysTaskItem.sorted(byKeyPath: "date")
+            }
             //データ再読み込み
             tableView.reloadData()
         }
@@ -322,6 +307,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let deleteButton: UITableViewRowAction = UITableViewRowAction(style: .normal, title: "削除") { (action, index) -> Void in
             //削除メソッドの呼び出し
             delete()
+
         }
         //スワイプ〜完了ボタンの処理
         let doneButton: UITableViewRowAction = UITableViewRowAction(style: .normal, title: "完了") { (action, index) -> Void in
@@ -357,8 +343,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             }
             //削除メソッドの呼び出し
             delete()
-            self.loadView()
-            self.viewDidLoad()
 
         }
         deleteButton.backgroundColor = UIColor.red
@@ -374,18 +358,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         if (segue.identifier == "detail") {
             let detailVC = segue.destination as! DetailViewController
             //DetaillVCにセル番号を渡す
-
             detailVC.saveIndexNumber = indexNumber
 
         }
 
-        if (segue.identifier == "next") &&
-            textFieldTouchReturnKey == false {
-            //タップした時にその配列の番号の中身を取り出して値を渡す
-            let nextVC = segue.destination as! NextViewController
-            //変数名.が持つ変数 =  渡したいものが入った変数
-            //nextVC.taskNameString = textArray[indexNumber]
-        } else if (segue.identifier == "next") && textFieldTouchReturnKey == true {
+        if (segue.identifier == "next") {
             //タップした時にその配列の番号の中身を取り出して値を渡す
             let nextVC = segue.destination as! NextViewController
             //遷移先のNextVCのタスク名に、入力したタスク名を表示させる
@@ -394,8 +371,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     }
 
+    //15文字以上の文字を取り除くメソッド
+    func textFieldEditingChanged(textField: UITextField) {
+        let maxLength: Int = 15
+        guard let text = textField.text else { return }
+        textField.text = String(text.prefix(maxLength))
+    }
+
 //returnキーが押された時に発動するメソッド
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textFieldEditingChanged(textField: textField)
         editText = (textField.text?.trimmingCharacters(in: .whitespaces))!
         //タスク名が入力されていない場合キーボード閉じる
         if (editText.isEmpty == true) {

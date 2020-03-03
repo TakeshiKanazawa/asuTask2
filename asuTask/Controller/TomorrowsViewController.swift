@@ -13,12 +13,13 @@ import RealmSwift
 
 class TomorrowsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UNUserNotificationCenterDelegate, UIGestureRecognizerDelegate {
 
-    //Realm用ジェネリクス宣言
+    //Realm
     var tomorrowsTaskItem: Results<TomorrowsTask>!
     var userStatus: Results<User>!
+
     //タスク入力用テキストフィールド
     @IBOutlet weak var textField: UITextField!
- //テーブルビュー
+    //テーブルビュー
     @IBOutlet weak var tableView: UITableView!
     //タスク件数表示用ラベル
     @IBOutlet weak var tomorrowsTaskMessageLabel: UILabel!
@@ -30,8 +31,6 @@ class TomorrowsViewController: UIViewController, UITableViewDelegate, UITableVie
     @IBOutlet weak var settingButton: UIButton!
     //リターンキーが押されたかどうかを判定する
     var textFieldTouchReturnKey = false
-    //タスク名を入れる配列
-    var textArray = [String]()
 //    //選択されたセルの番号を入れるための変数
     var indexNumber = Int()
     //入力されたタスクを入れる変数
@@ -55,9 +54,9 @@ class TomorrowsViewController: UIViewController, UITableViewDelegate, UITableVie
     }
 
     @IBAction func settingButton(_ sender: Any) {
-              BtnAnimation(sender: settingButton)
+        BtnAnimation(sender: settingButton)
     }
-    
+
 
 
     //タスクレベル表示用
@@ -73,24 +72,35 @@ class TomorrowsViewController: UIViewController, UITableViewDelegate, UITableVie
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         //TodaysTaskクラスに永続化されているデータを取りだす
         do {
             let realm = try Realm()
             tomorrowsTaskItem = realm.objects(TomorrowsTask.self)
+            //明日のタスクが1件以上登録あれば、sortして表示する
+            if tomorrowsTaskItem.count > 1 {
+                tomorrowsTaskItem = tomorrowsTaskItem.sorted(byKeyPath: "date")
+            }
             userStatus = realm.objects(User.self)
-            //tableView.reloadData()
+
         } catch {
             print("RealmからTodaysTaskのデータを読み込めませんでした")
         }
         //もしユーザクラス作成がまだなら
+        //UserDefaultsから取り出し
+        var userFlg = UserDefaults.standard.bool(forKey: "userFlg")
+
         if userFlg != true {
             do {
                 let realm = try Realm()
                 let user = User()
                 try realm.write({ () -> Void in
                     realm.add(user)
+                    //userDefaultsに保存
+                    let userDefaults = UserDefaults.standard
+                    //UDのバッジの値変更
                     userFlg = true
+                    userDefaults.set(userFlg, forKey: "userFlg")
                     print("ユーザクラス作成完了")
                 })
             } catch {
@@ -98,12 +108,12 @@ class TomorrowsViewController: UIViewController, UITableViewDelegate, UITableVie
             }
         }
 
-         //ユーザLevel etc表示
+        //ユーザLevel etc表示
         let status = userStatus?.first?.status
         let level = userStatus?.first!.level
         usersLevelLavel.text = "\(level!)"
-         let myImage = UIImage(named:"\(status!)")
-         usersImageIcon.image = myImage
+        let myImage = UIImage(named: "\(status!)")
+        usersImageIcon.image = myImage
         //テーブルビューの枠線
         tableView.separatorColor = .black
         //タップでキーボード閉じる
@@ -125,7 +135,7 @@ class TomorrowsViewController: UIViewController, UITableViewDelegate, UITableVie
         self.view.addGestureRecognizer(tapGesture)
 
         //todaysTaskMessageLabelのデザイン
-        let rgba = UIColor(red: 1.0, green: 127 / 255.0, blue: 161 / 255.0, alpha: 1.0)
+        let rgba = UIColor.purple
         tomorrowsTaskMessageLabel.backgroundColor = rgba // 背景色
         tomorrowsTaskMessageLabel.textAlignment = NSTextAlignment.center //文字中央揃え
         tomorrowsTaskMessageLabel.textColor = UIColor.white // 文字色
@@ -133,7 +143,7 @@ class TomorrowsViewController: UIViewController, UITableViewDelegate, UITableVie
         tomorrowsTaskMessageLabel.clipsToBounds = true // labelの時は必須（角丸）
         tomorrowsTaskMessageLabel.layer.borderWidth = 0.0 // 枠線の幅（0なので表示なし）
         tomorrowsTaskMessageLabel.layer.borderColor = UIColor.white.cgColor // 枠線の色
-     tomorrowsTaskMessageLabel.backgroundColor = rgba
+
 
         //textFieldのデザイン
         textField.borderStyle = .none
@@ -148,13 +158,14 @@ class TomorrowsViewController: UIViewController, UITableViewDelegate, UITableVie
         self.refreshControl.attributedTitle = NSAttributedString(string: "引っ張ってこうしん！")
         self.refreshControl.addTarget(self, action: #selector(refresh), for: UIControl.Event.valueChanged)
         self.tableView.addSubview(refreshControl)
-
         tableView.reloadData()
+
     }
 
     //viewが表示される直前の処理
     override func viewWillAppear(_ animated: Bool) {
-        
+
+
         self.loadView()
         self.viewDidLoad()
         //インディケータの回転停止
@@ -184,11 +195,11 @@ class TomorrowsViewController: UIViewController, UITableViewDelegate, UITableVie
 
         //カスタムセルを使用
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! CustomTableViewCellForTomorrows
-        let object: TomorrowsTask = self.tomorrowsTaskItem[(indexPath as NSIndexPath).row]
+        let object: TomorrowsTask = self.tomorrowsTaskItem![(indexPath as NSIndexPath).row]
 
         //セルにタスク名をset
         cell.setCell(titleText: object.name)
-        
+
         //タスク通知リマインド用画像
         let alarmclockImage = UIImage(named: "alarmClock")! as UIImage
         let alarmImage = UIImage(named: "alarm")! as UIImage
@@ -235,14 +246,13 @@ class TomorrowsViewController: UIViewController, UITableViewDelegate, UITableVie
     //セルが選択(タップ)された時
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         textFieldTouchReturnKey = false
-        
-        //セルのハイライト解除
-        tableView.deselectRow(at: indexPath, animated: true)
+
         //変数indexNumberにセル番号を代入
         indexNumber = indexPath.row
         //タスク詳細画面へ遷移
         performSegue(withIdentifier: "detail", sender: nil)
     }
+
 
     //セルの高さ
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -255,30 +265,7 @@ class TomorrowsViewController: UIViewController, UITableViewDelegate, UITableVie
         func delete () {
             //該当セルのRealmデータオブジェクトの作成
             let object: TomorrowsTask = self.tomorrowsTaskItem[(indexPath as NSIndexPath).row]
-            //タスク通知のあるタスクかcheck
-            if object.time != "設定なし" { //登録時刻が現在時刻よりも後の場合はタスク削除時にバッジもデクリメントする。
 
-                //まず登録時刻をDate型に変換
-                let convertDate = CommonFunction.dateFromString(string: object.time, format: "yyyy/MM/dd HH:mm")
-                //現在時刻のインスタンス化
-                let now: Date = Date()
-                //登録時刻が現在時刻と過去である、もしくは同時刻であった場合
-                if convertDate <= now {
-                    //バッジをデクリメント
-                    UIApplication.shared.applicationIconBadgeNumber -= 1
-                    contentBadgeInt = UIApplication.shared.applicationIconBadgeNumber
-                    //UDの参照
-                    let userDefaults = UserDefaults.standard
-                    //UDのバッジの値変更
-                    userDefaults.set(contentBadgeInt, forKey: "contentBadge")
-                    //タスク通知ある場合はPUSH通知登録を削除
-                } else {
-
-                    let center = UNUserNotificationCenter.current()
-                    center.removePendingNotificationRequests(withIdentifiers: [object.id])
-                    print(object.id)
-                }
-            }
             //タスク通知のあるタスクかcheck
             if object.time != "設定なし" { //登録時刻が現在時刻よりも後の場合はタスク削除時にバッジもデクリメントする。
                 //まず登録時刻をDate型に変換
@@ -305,19 +292,23 @@ class TomorrowsViewController: UIViewController, UITableViewDelegate, UITableVie
             //Realm接続　データ削除
             do {
                 let realm = try Realm()
-                //オブジェクトの取得
-                let results = realm.objects(TomorrowsTask.self)
-                print(results)
+
+
                 try! realm.write {
+                    //TaskListオブジェクトの削除
                     realm.delete(object)
                 }
                 tableView.deleteRows(at: [indexPath], with: .fade)
-                print(results)
+
             } catch {
                 print("本日のタスクを削除できませんでした")
             }
             //本日のタスク件数の再読み込み
             self.tomorrowsTaskMessageLabelChange()
+            //sort
+            if tomorrowsTaskItem.count > 1 {
+                       tomorrowsTaskItem = tomorrowsTaskItem.sorted(byKeyPath: "date")
+              }
             //データ再読み込み
             tableView.reloadData()
         }
@@ -345,29 +336,28 @@ class TomorrowsViewController: UIViewController, UITableViewDelegate, UITableVie
                 let realm = try Realm()
                 let user = realm.object(ofType: User.self, forPrimaryKey: "0")
 
-                try realm.write{
+                try realm.write {
                     user?.level = userLevel
                     user?.status = userStatus
                     user?.doneTask = doneTaskCount!
-                   print("ユーザデータ更新完了")
+                    print("ユーザデータ更新完了")
                 }
-            }catch{
+            } catch {
                 print("ユーザデータ更新失敗")
             }
             //タスク完了数が条件と合致すれば画面遷移
-              if levelBool {
-                  //レベルアップ画面に遷移
-                  self.performSegue(withIdentifier: "levelUp", sender: nil)
-              }
+            if levelBool {
+                //レベルアップ画面に遷移
+                self.performSegue(withIdentifier: "levelUp", sender: nil)
+            }
             //削除メソッドの呼び出し
             delete()
-            self.loadView()
-            self.viewDidLoad()
+
 
         }
         deleteButton.backgroundColor = UIColor.red
         doneButton.backgroundColor = UIColor.blue
-        
+
         return [deleteButton, doneButton]
     }
 
@@ -376,30 +366,30 @@ class TomorrowsViewController: UIViewController, UITableViewDelegate, UITableVie
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         //セルがタップされた状態(タスク詳細画面の表示)
         if (segue.identifier == "detail") {
-            let detailVC = segue.destination as! DetailViewController
+            let detailVC = segue.destination as! DetailViewControllerForTomorrows
             //DetaillVCにセル番号を渡す
-
             detailVC.saveIndexNumber = indexNumber
-
         }
-
-        if (segue.identifier == "next") &&
-            textFieldTouchReturnKey == false {
-            //タップした時にその配列の番号の中身を取り出して値を渡す
-            let nextVC = segue.destination as! NextViewControllerForTomorrows
-            //変数名.が持つ変数 =  渡したいものが入った変数
-            nextVC.taskNameString = textArray[indexNumber]
-        } else if (segue.identifier == "next") && textFieldTouchReturnKey == true {
+        if (segue.identifier == "next") {
             //タップした時にその配列の番号の中身を取り出して値を渡す
             let nextVC = segue.destination as! NextViewControllerForTomorrows
             //遷移先のNextVCのタスク名に、入力したタスク名を表示させる
             nextVC.taskNameString = editText
-
         }
+
+
+    }
+
+    //15文字以上の文字を取り除くメソッド
+    func textFieldEditingChanged(textField: UITextField) {
+        let maxLength: Int = 15
+        guard let text = textField.text else { return }
+        textField.text = String(text.prefix(maxLength))
     }
 
 //returnキーが押された時に発動するメソッド
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textFieldEditingChanged(textField: textField)
         editText = (textField.text?.trimmingCharacters(in: .whitespaces))!
         //タスク名が入力されていない場合キーボード閉じる
         if (editText.isEmpty == true) {

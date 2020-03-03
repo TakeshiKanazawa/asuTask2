@@ -13,7 +13,7 @@ class TaskMemoController: UIViewController, UITableViewDelegate, UITableViewData
 
     //Realm
     var taskMemoItem: Results<TaskMemo>!
-
+    @IBOutlet weak var taskMemoMessageLabel: UILabel!
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var textField: UITextField!
@@ -28,6 +28,7 @@ class TaskMemoController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
 
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -35,7 +36,7 @@ class TaskMemoController: UIViewController, UITableViewDelegate, UITableViewData
         do {
             let realm = try Realm()
             taskMemoItem = realm.objects(TaskMemo.self)
-            //tableView.reloadData()
+            
         } catch {
             print("RealmからTaskMemoのデータを読み込めませんでした")
         }
@@ -53,6 +54,26 @@ class TaskMemoController: UIViewController, UITableViewDelegate, UITableViewData
         textField.delegate = self
         tapGesture.delegate = self
         self.view.addGestureRecognizer(tapGesture)
+
+        taskMemoMessageLabel.text = "いつかやるタスクを保存しましょう"
+        taskMemoMessageLabel.textAlignment = NSTextAlignment.center //文字中央揃え
+        taskMemoMessageLabel.textColor = UIColor.white // 文字色
+        taskMemoMessageLabel.layer.cornerRadius = 10.0 // 角丸のサイズ
+        taskMemoMessageLabel.clipsToBounds = true // labelの時は必須（角丸）
+        taskMemoMessageLabel.layer.borderWidth = 0.0 // 枠線の幅（0なので表示なし）
+        taskMemoMessageLabel.layer.borderColor = UIColor.white.cgColor // 枠線の色
+        taskMemoMessageLabel.backgroundColor = UIColor.systemOrange
+        
+        //textFieldのデザイン
+        textField.borderStyle = .none
+        textField.layer.cornerRadius = 17
+        textField.layer.borderColor = UIColor.lightGray.cgColor
+        textField.layer.borderWidth = 1
+        textField.layer.masksToBounds = true
+        
+        //テーブルビューの枠線
+        tableView.separatorColor = .black
+
 
 
     }
@@ -79,7 +100,7 @@ class TaskMemoController: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         textFieldTouchReturnKey = false
 
-        //self.tableView.allowsSelection = false
+        
 
     }
 
@@ -108,19 +129,35 @@ class TaskMemoController: UIViewController, UITableViewDelegate, UITableViewData
             }
 
             //realmからタスクメモ１件削除
-
             tableView.deleteRows(at: [indexPath], with: .automatic)
             //tableviewおよびviewの再読み込み
+
+                //sort対応
+            if self.taskMemoItem.count > 1 {
+                self.taskMemoItem = self.taskMemoItem.sorted(byKeyPath: "date")
+                }
+            
             tableView.reloadData()
+            
 
         }
         deleteButton.backgroundColor = UIColor.red
 
         return [deleteButton]
     }
+    
+    //15文字以上の文字を取り除くメソッド
+     func textFieldEditingChanged(textField: UITextField) {
+        let maxLength: Int = 30
+        guard let text = textField.text else { return }
+        textField.text = String(text.prefix(maxLength))
+    }
+
+    
 
     //returnキーが押された時に発動するメソッド
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textFieldEditingChanged(textField: textField)
         editText = (textField.text?.trimmingCharacters(in: .whitespaces))!
         //タスク名が入力されていない場合キーボード閉じる
         if (editText.isEmpty == true) {
@@ -146,10 +183,8 @@ class TaskMemoController: UIViewController, UITableViewDelegate, UITableViewData
             }
             //テキストフィールドの文字を空にする
             textField.text = ""
-            //tableviewおよびviewの再読み込み
+            //tableviewの再読み込み
             tableView.reloadData()
-            loadView()
-            viewDidLoad()
 
         }
         return true

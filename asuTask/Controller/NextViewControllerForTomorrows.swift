@@ -10,13 +10,15 @@ import UIKit
 import RealmSwift
 import UserNotifications
 
-class NextViewControllerForTomorrows: UIViewController {
+class NextViewControllerForTomorrows: UIViewController, UITextFieldDelegate {
 
     //UserDefaultsの参照
     let userDefaults = UserDefaults.standard
 
     //タスク通知フラグ
     var taskNotification = false
+    //入力されたタスクを入れる変数
+    var editText = String()
     //アラートコントローラー
     var alertController: UIAlertController!
     //タスク優先度のデフォルト値設定
@@ -38,6 +40,8 @@ class NextViewControllerForTomorrows: UIViewController {
         taskNotification = false
 
         taskNameTextField.text = taskNameString
+        //デリゲート
+        taskNameTextField.delegate = self
         //Datepicker無効化
         taskDatePicker.isEnabled = false
 
@@ -56,8 +60,6 @@ class NextViewControllerForTomorrows: UIViewController {
         taskDatePicker.minimumDate = day_tomorrow
         //最大日時を翌翌日に設定(datepickerでは選択できない)
         taskDatePicker.maximumDate = dayAfterTomorrow
-
-
 
     }
 
@@ -78,9 +80,25 @@ class NextViewControllerForTomorrows: UIViewController {
         }
     }
 
+
+    //画面タップでキーボード閉じる
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+
     //キャンセルボタン
     @IBAction func back(_ sender: Any) {
         dismiss(animated: true, completion: nil)
+    }
+
+    //returnキーが押された時に発動するメソッド
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        //入力可能オーバー文字数の切り取り
+        textFieldEditingChanged(textField: taskNameTextField)
+        //タスク名が入力されていない場合キーボード閉じる
+        taskNameTextField.resignFirstResponder()
+        //タスク作成画面へ遷移させる
+        return true
     }
     //タスク優先度ボタン
     @IBAction func taskPriority(_ sender: Any) {
@@ -100,71 +118,80 @@ class NextViewControllerForTomorrows: UIViewController {
         }
     }
 
+    //15文字以上の文字を取り除くメソッド
+    func textFieldEditingChanged(textField: UITextField) {
+        let maxLength: Int = 15
+        guard let text = taskNameTextField.text else { return }
+        taskNameTextField.text = String(text.prefix(maxLength))
+    }
+
     //完了ボタン
     @IBAction func done(_ sender: Any) {
-        //タスク通知する場合⇨登録時刻が未来の日付なら処理を継続
-        if taskNotification == true && checkTime() {
-            //タスク通知許可/非許可
-            CommonFunction.setNotificationGranted()
-            //タスク通知PUSH登録
-            setNotification(date: taskDatePicker.date)
-            //変数taskTimeにDatePickerの時刻を代入
-            let taskTime = CommonFunction.format(date: taskDatePicker!.date)
-            let taskTimeForDetailView = CommonFunction.formatforDetailView(date: taskDatePicker!.date)
+        textFieldEditingChanged(textField: taskNameTextField)
+        editText = (taskNameTextField.text?.trimmingCharacters(in: .whitespaces))!
+        if editText.isEmpty == true {
+            alert(title: "登録できません",
+                message: "タスク名を入力してください")
+            print("登録名エラーの為処理終了")
+        }
+        else {
+            //タスク通知する場合⇨登録時刻が未来の日付なら処理を継続
+            if taskNotification == true && checkTime() {
+                //タスク通知許可/非許可
+                CommonFunction.setNotificationGranted()
+                //タスク通知PUSH登録
+                setNotification(date: taskDatePicker.date)
+                //変数taskTimeにDatePickerの時刻を代入
+                let taskTime = CommonFunction.format(date: taskDatePicker!.date)
+                let taskTimeForDetailView = CommonFunction.formatforDetailView(date: taskDatePicker!.date)
 
-            //ここでRMに接続し、データの保存を行う
-            let newTomorrowsTask = TomorrowsTask()
-            newTomorrowsTask.name = taskNameTextField.text!
-            newTomorrowsTask.time = taskTime
-            newTomorrowsTask.timeForDetail = taskTimeForDetailView
-            newTomorrowsTask.priority = taskPriority
-            newTomorrowsTask.id = taskId
-
-            // let newUsersData = User()
+                //ここでRMに接続し、データの保存を行う
+                let newTomorrowsTask = TomorrowsTask()
+                newTomorrowsTask.name = editText
+                newTomorrowsTask.time = taskTime
+                newTomorrowsTask.timeForDetail = taskTimeForDetailView
+                newTomorrowsTask.priority = taskPriority
+                newTomorrowsTask.id = taskId
 
 
-            do {
-                let realm = try Realm()
-                try realm.write({ () -> Void in
-                    realm.add(newTomorrowsTask)
-                    // realm.add(newUsersData)
-                    print("本日のタスク1件保存完了")
-                })
-            } catch {
-                print("本日のタスク1件保存失敗")
+                do {
+                    let realm = try Realm()
+                    try realm.write({ () -> Void in
+                        realm.add(newTomorrowsTask)
+                        print("本日のタスク1件保存完了")
+                    })
+                } catch {
+                    print("本日のタスク1件保存失敗")
+                }
+
+                dismiss(animated: true, completion: nil)
+                //もしタスク通知がfalseなら。Viewコントローラーのtextarrayに仮値をappend
+            } else if taskNotification == false {
+
+                //ここでRMに接続し、データの保存を行う
+                let newTomorrowsTask = TomorrowsTask()
+                newTomorrowsTask.name = editText
+                newTomorrowsTask.time = taskTime
+                newTomorrowsTask.timeForDetail = taskTimeForDetailView
+                newTomorrowsTask.priority = taskPriority
+                newTomorrowsTask.id = taskId
+
+
+                //DB接続
+                do {
+                    let realm = try Realm()
+                    try realm.write({ () -> Void in
+                        realm.add(newTomorrowsTask)
+                        print("本日のタスク1件保存完了")
+                    })
+                } catch {
+                    print("本日のタスク1件保存失敗")
+                }
+                dismiss(animated: true, completion: nil)
             }
-            print(newTomorrowsTask)
-
-            dismiss(animated: true, completion: nil)
-            //もしタスク通知がfalseなら。Viewコントローラーのtextarrayに仮値をappend
-        } else if taskNotification == false {
-
-            //ここでRMに接続し、データの保存を行う
-            let newTomorrowsTask = TomorrowsTask()
-            newTomorrowsTask.name = taskNameTextField.text!
-            newTomorrowsTask.time = taskTime
-            newTomorrowsTask.timeForDetail = taskTimeForDetailView
-            newTomorrowsTask.priority = taskPriority
-            newTomorrowsTask.id = taskId
-
-
-
-            //DB接続
-
-            do {
-                let realm = try Realm()
-                try realm.write({ () -> Void in
-                    realm.add(newTomorrowsTask)
-
-                    print("本日のタスク1件保存完了")
-                })
-            } catch {
-                print("本日のタスク1件保存失敗")
-            }
-            print(newTomorrowsTask)
-            dismiss(animated: true, completion: nil)
         }
     }
+
 
     //時刻チェックを行うメソッド
     func checkTime() -> Bool {

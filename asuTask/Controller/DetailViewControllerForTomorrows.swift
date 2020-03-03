@@ -1,20 +1,23 @@
 //
-//  DetailViewController.swift
+//  DetailViewControllerForTomorrows.swift
 //  asuTask
 //
-//  Created by 金澤武士 on 2019/10/01.
-//  Copyright © 2019 tk. All rights reserved.
+//  Created by 金澤武士 on 2020/02/16.
+//  Copyright © 2020 tk. All rights reserved.
 //
+
+
 
 import UIKit
 import RealmSwift
 
-class DetailViewController: UIViewController {
+class DetailViewControllerForTomorrows: UIViewController {
 
     //Realm
     var todaysTaskItem: Results<TodaysTask>!
     var tomorrowsTaskItem: Results<TomorrowsTask>!
     var userStatus: Results<User>!
+
     //indexnumber保存用のインスタンス
     var saveIndexNumber = Int()
     //タスク表示名ボタン
@@ -23,16 +26,12 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var taskPlannedTimeButton: UIButton!
     //タスク優先度ボタン
     @IBOutlet weak var taskPriorityButton: UIButton!
-    //明日タスクへ移動ボタン
-    @IBOutlet weak var moveToTomorrowsTaskButton: UIButton!
-    //このタスクを削除ボタン
-    @IBOutlet weak var deleteTaskButton: UIButton!
     //タスク完了ボタン
     @IBOutlet weak var doneTaskButton: UIButton!
 
     func delete () {
         //該当セルのRealmデータオブジェクトの作成
-        let object: TodaysTask = todaysTaskItem[saveIndexNumber]
+        let object: TomorrowsTask = self.tomorrowsTaskItem[(saveIndexNumber)]
         //タスク通知のあるタスクかcheck
         if object.time != "設定なし" { //登録時刻が現在時刻よりも後の場合はタスク削除時にバッジもデクリメントする。
             //まず登録時刻をDate型に変換
@@ -52,38 +51,42 @@ class DetailViewController: UIViewController {
             } else {
                 let center = UNUserNotificationCenter.current()
                 center.removePendingNotificationRequests(withIdentifiers: [object.id])
+                print(object.id)
             }
         }
+
+        let tomorrowsTask = TomorrowsTask()
 
         //Realm接続　データ削除
         do {
             let realm = try Realm()
             try! realm.write {
-                //TaskListオブジェクトの削除
                 realm.delete(object)
             }
+
         } catch {
             print("本日のタスクを削除できませんでした")
         }
     }
 
-    //明日タスクへ移動ボタン(Action)
-    @IBAction func moveToTomorrowsTaskButton(_ sender: Any) {
+    //今日タスクへ移動ボタン(Action)
+    @IBAction func moveToTodaysTaskButton(_ sender: Any) {
+        //ここにrealmでの処理を書く
         //該当セルのRealmデータオブジェクトの作成
-        let object: TodaysTask = self.todaysTaskItem![(saveIndexNumber)]
+        let object: TomorrowsTask = self.tomorrowsTaskItem![(saveIndexNumber)]
         //該当のタスクを翌日のタスクへ追加
-        let newTomorrowsTask = TomorrowsTask()
-        newTomorrowsTask.name = object.name
-        newTomorrowsTask.time = object.time
-        newTomorrowsTask.timeForDetail = object.timeForDetail
-        newTomorrowsTask.priority = object.priority
-        newTomorrowsTask.id = object.id
+        let newTodaysTask = TodaysTask()
+        newTodaysTask.name = object.name
+        newTodaysTask.time = object.time
+        newTodaysTask.timeForDetail = object.timeForDetail
+        newTodaysTask.priority = object.priority
+        newTodaysTask.id = object.id
 
         do {
             let realm = try Realm()
             try realm.write({ () -> Void in
-                realm.add(newTomorrowsTask)
-                print(newTomorrowsTask)
+                realm.add(newTodaysTask)
+
                 print("明日のタスク1件保存完了")
             })
         } catch {
@@ -93,18 +96,21 @@ class DetailViewController: UIViewController {
         delete()
         //前画面へ戻る
         dismiss(animated: true, completion: nil)
+
     }
-    
+
+
     @IBAction func deleteTaskButton(_ sender: Any) {
         //該当のタスクを削除
         delete()
         //前画面へ戻る
         dismiss(animated: true, completion: nil)
     }
-    
     @IBAction func doneTaskButton(_ sender: Any) {
+
         //データ更新準備　Userインスタンス生成
         var doneTaskCount = self.userStatus.first?.doneTask
+
         //タスク完了件数カウントアップ
         doneTaskCount! += 1
         //ここでタスク完了数に対するレベルチェックメソッドの発動
@@ -113,6 +119,7 @@ class DetailViewController: UIViewController {
         let userLevel = (checkDoneTaskCount.0)
         let userStatus = (checkDoneTaskCount.1)
         let levelBool = (checkDoneTaskCount.2)
+
         //DB接続
         do {
             let realm = try Realm()
@@ -144,20 +151,18 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-
         //TodaysTaskクラスに永続化されているデータを取りだす
         do {
             let realm = try Realm()
-            todaysTaskItem = realm.objects(TodaysTask.self)
-            if todaysTaskItem.count > 1 {
-                     todaysTaskItem = todaysTaskItem.sorted(byKeyPath: "date")
+            tomorrowsTaskItem = realm.objects(TomorrowsTask.self)
+            if tomorrowsTaskItem.count > 1 {
+                tomorrowsTaskItem = tomorrowsTaskItem.sorted(byKeyPath: "date")
             }
-
             userStatus = realm.objects(User.self)
         } catch {
             print("RealmからTodaysTaskのデータを読み込めませんでした")
         }
-        let object: TodaysTask = todaysTaskItem[saveIndexNumber]
+        let object: TomorrowsTask = tomorrowsTaskItem[saveIndexNumber]
 
         //タスク名の表示名の設定　ボタンの無効化(現時点ではボタン機能は実装しない)
         taskNameButton.setTitle(object.name, for: .normal)
@@ -175,6 +180,7 @@ class DetailViewController: UIViewController {
     @IBAction func backButton(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
+
 
 
 }

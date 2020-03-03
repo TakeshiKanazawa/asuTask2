@@ -24,10 +24,14 @@
 		397CF76C23434D4B0087D9A5 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 397CF76B23434D4B0087D9A5 /* DetailViewController.swift */; };
 		397D01CD2350714600289A13 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 397D01CC2350714500289A13 /* SettingViewController.swift */; };
 		39A3199F235368E000F597D3 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39A3199E235368E000F597D3 /* MessageUI.framework */; };
+		39D1E4CE23FFCF69006D161C /* iPhone8plus.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 39D1E4CD23FFCF69006D161C /* iPhone8plus.storyboard */; };
+		39D1E4D023FFD22B006D161C /* iPhoneXS.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 39D1E4CF23FFD22B006D161C /* iPhoneXS.storyboard */; };
+		39D1E4D223FFD23D006D161C /* iPhoneXSMAX.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 39D1E4D123FFD23D006D161C /* iPhoneXSMAX.storyboard */; };
+		39D1E4D423FFD288006D161C /* iPhoneSe.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 39D1E4D323FFD288006D161C /* iPhoneSe.storyboard */; };
 		39D8AF2F23F6DD110083C408 /* TaskMemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D8AF2E23F6DD110083C408 /* TaskMemo.swift */; };
+		39D8AF3123F90B9A0083C408 /* DetailViewControllerForTomorrows.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D8AF3023F90B9A0083C408 /* DetailViewControllerForTomorrows.swift */; };
 		39E8B0A423E6D40A00C169FB /* CommonFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E8B0A323E6D40A00C169FB /* CommonFunction.swift */; };
 		39E8B0A623E6E0DB00C169FB /* TodaysTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E8B0A523E6E0DB00C169FB /* TodaysTask.swift */; };
-		39E8B0A923E7C06300C169FB /* Realm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E8B0A823E7C06300C169FB /* Realm.swift */; };
 		39E8B0AB23E8613B00C169FB /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E8B0AA23E8613A00C169FB /* User.swift */; };
 		39E8EACF2393B0120019B0BD /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E8EACE2393B0120019B0BD /* CustomTableViewCell.swift */; };
 		39E8EAD12393BC770019B0BD /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E8EAD02393BC770019B0BD /* CheckBox.swift */; };
@@ -53,10 +57,14 @@
 		397D01CC2350714500289A13 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		39A3199E235368E000F597D3 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		39CDF67F8A609501CBE47581 /* Pods-asuTask.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-asuTask.debug.xcconfig"; path = "Target Support Files/Pods-asuTask/Pods-asuTask.debug.xcconfig"; sourceTree = "<group>"; };
+		39D1E4CD23FFCF69006D161C /* iPhone8plus.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = iPhone8plus.storyboard; sourceTree = "<group>"; };
+		39D1E4CF23FFD22B006D161C /* iPhoneXS.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = iPhoneXS.storyboard; sourceTree = "<group>"; };
+		39D1E4D123FFD23D006D161C /* iPhoneXSMAX.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = iPhoneXSMAX.storyboard; sourceTree = "<group>"; };
+		39D1E4D323FFD288006D161C /* iPhoneSe.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = iPhoneSe.storyboard; sourceTree = "<group>"; };
 		39D8AF2E23F6DD110083C408 /* TaskMemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskMemo.swift; sourceTree = "<group>"; };
+		39D8AF3023F90B9A0083C408 /* DetailViewControllerForTomorrows.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewControllerForTomorrows.swift; sourceTree = "<group>"; };
 		39E8B0A323E6D40A00C169FB /* CommonFunction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonFunction.swift; sourceTree = "<group>"; };
 		39E8B0A523E6E0DB00C169FB /* TodaysTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodaysTask.swift; sourceTree = "<group>"; };
-		39E8B0A823E7C06300C169FB /* Realm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Realm.swift; sourceTree = "<group>"; };
 		39E8B0AA23E8613A00C169FB /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		39E8EACE2393B0120019B0BD /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 		39E8EAD02393BC770019B0BD /* CheckBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBox.swift; sourceTree = "<group>"; };
@@ -98,13 +106,11 @@
 		393FA752233F05E500ADBF01 /* asuTask */ = {
 			isa = PBXGroup;
 			children = (
-				39E8B0A723E7C02F00C169FB /* Realm */,
 				39E8B0A223E6D30D00C169FB /* Resource */,
 				39E8B0A123E6D30000C169FB /* Common */,
 				39E8B09A23E6BF6800C169FB /* Model */,
 				39E8B09B23E6BF8000C169FB /* View */,
 				39E8B09C23E6BF8A00C169FB /* Controller */,
-				393FA75C233F05EC00ADBF01 /* LaunchScreen.storyboard */,
 				393FA75F233F05EC00ADBF01 /* Info.plist */,
 			);
 			path = asuTask;
@@ -137,6 +143,11 @@
 			isa = PBXGroup;
 			children = (
 				393FA757233F05E500ADBF01 /* Main.storyboard */,
+				39D1E4CD23FFCF69006D161C /* iPhone8plus.storyboard */,
+				393FA75C233F05EC00ADBF01 /* LaunchScreen.storyboard */,
+				39D1E4CF23FFD22B006D161C /* iPhoneXS.storyboard */,
+				39D1E4D123FFD23D006D161C /* iPhoneXSMAX.storyboard */,
+				39D1E4D323FFD288006D161C /* iPhoneSe.storyboard */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -154,6 +165,7 @@
 				393A0DA2235200290016DB7B /* TomorrowsViewController.swift */,
 				3973F61023F23B28008ED34A /* LevelUpModalForDetailViewController.swift */,
 				3979EEF123F503400055F0F6 /* NextViewControllerForTomorrows.swift */,
+				39D8AF3023F90B9A0083C408 /* DetailViewControllerForTomorrows.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -172,14 +184,6 @@
 				393FA767234098D900ADBF01 /* Assets.xcassets */,
 			);
 			path = Resource;
-			sourceTree = "<group>";
-		};
-		39E8B0A723E7C02F00C169FB /* Realm */ = {
-			isa = PBXGroup;
-			children = (
-				39E8B0A823E7C06300C169FB /* Realm.swift */,
-			);
-			path = Realm;
 			sourceTree = "<group>";
 		};
 		46D3604AC1398D2594A238E2 /* Pods */ = {
@@ -251,6 +255,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				39D1E4D023FFD22B006D161C /* iPhoneXS.storyboard in Resources */,
+				39D1E4D223FFD23D006D161C /* iPhoneXSMAX.storyboard in Resources */,
+				39D1E4CE23FFCF69006D161C /* iPhone8plus.storyboard in Resources */,
+				39D1E4D423FFD288006D161C /* iPhoneSe.storyboard in Resources */,
 				393FA75E233F05EC00ADBF01 /* LaunchScreen.storyboard in Resources */,
 				393FA768234098D900ADBF01 /* Assets.xcassets in Resources */,
 				393FA759233F05E500ADBF01 /* Main.storyboard in Resources */,
@@ -308,7 +316,7 @@
 			files = (
 				3977CFDA23DEBD8E00D32F3D /* LevelUpModalViewController.swift in Sources */,
 				3904B96B234600D30048BCA2 /* TaskMemoController.swift in Sources */,
-				39E8B0A923E7C06300C169FB /* Realm.swift in Sources */,
+				39D8AF3123F90B9A0083C408 /* DetailViewControllerForTomorrows.swift in Sources */,
 				393A0DA3235200290016DB7B /* TomorrowsViewController.swift in Sources */,
 				39E8EAD12393BC770019B0BD /* CheckBox.swift in Sources */,
 				39E8B0A623E6E0DB00C169FB /* TodaysTask.swift in Sources */,
@@ -401,7 +409,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -456,7 +464,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -472,16 +480,18 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1.01;
 				DEVELOPMENT_TEAM = 8CF5UBGL4X;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				"GCC_OPTIMIZATION_LEVEL[arch=*]" = 0;
 				INFOPLIST_FILE = asuTask/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = jp.hotmail.oseans.asuTask2;
+				MARKETING_VERSION = 1.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yandex.kanatake.asuTask;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -494,14 +504,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1.01;
 				DEVELOPMENT_TEAM = 8CF5UBGL4X;
 				INFOPLIST_FILE = asuTask/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = jp.hotmail.oseans.asuTask2;
+				MARKETING_VERSION = 1.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yandex.kanatake.asuTask;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

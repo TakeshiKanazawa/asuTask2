@@ -9,8 +9,6 @@
 import Foundation
 import RealmSwift
 
-//Listにしたいもの
-
  //入力されたタスクを入れる変数
  var editText = String()
 
@@ -20,10 +18,6 @@ class TodaysTask: Object {
     @objc dynamic var timeForDetail: String = ""
     @objc dynamic var priority: String = ""
     @objc dynamic var id: String = ""
-    
+    @objc dynamic var date = Date()
 }
 
-//Listの定義
-class TaskList: Object {
-    let list = List<TodaysTask>()
-}
