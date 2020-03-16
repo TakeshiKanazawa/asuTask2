@@ -36,8 +36,8 @@ class SettingViewController: UIViewController, MFMailComposeViewControllerDelega
         if let settingSegment = userDefaults.object(forKey: "settingSegment") {
             segmentControl.selectedSegmentIndex = settingSegment as! Int
         }
-        if let userFlg = userDefaults.object(forKey: "userFlg") {
-            nortificationFlg = userFlg as! Bool
+        if let Flg = userDefaults.object(forKey: "nortificationFlg") {
+            nortificationFlg = Flg as! Bool
         }
         super.viewDidLoad()
     }
@@ -55,7 +55,6 @@ class SettingViewController: UIViewController, MFMailComposeViewControllerDelega
             dailyTaskNotificationDatePicker.isEnabled = true
             segmentControl.selectedSegmentIndex = 1
             nortificationFlg = true
-            print(nortificationFlg)
         default:
             segmentControl.selectedSegmentIndex = 0
             nortificationFlg = false
@@ -71,7 +70,7 @@ class SettingViewController: UIViewController, MFMailComposeViewControllerDelega
         userDefaults.set(segmentControl.selectedSegmentIndex, forKey: "settingSegment")
         userDefaults.set(dailyTaskNotificationDatePicker.date, forKey: "settingTime")
         userDefaults.set(dailyTaskNotificationDatePicker.isEnabled, forKey: "pickerImage")
-        userDefaults.set(nortificationFlg, forKey: "userFlg")
+        userDefaults.set(nortificationFlg, forKey: "nortificationFlg")
 
         //タスク通知があれば登録
         if nortificationFlg

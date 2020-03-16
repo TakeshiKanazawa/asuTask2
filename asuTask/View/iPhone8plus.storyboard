@@ -2,7 +2,6 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="EbI-TI-0re">
     <device id="retina5_5" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -86,7 +85,7 @@
                                 <state key="normal" image="tool"/>
                                 <connections>
                                     <action selector="settingButton:" destination="ajs-0z-4Et" eventType="touchUpInside" id="LLh-Td-Eql"/>
-                                    <segue destination="3Rp-0A-UfC" kind="presentation" modalPresentationStyle="overFullScreen" id="rwK-7E-hFU"/>
+                                    <segue destination="3Rp-0A-UfC" kind="presentation" modalPresentationStyle="fullScreen" id="rwK-7E-hFU"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="タスカーLV." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2rc-Oc-wmU">
@@ -750,7 +749,7 @@
                                 <state key="normal" image="tool"/>
                                 <connections>
                                     <action selector="settingButton:" destination="zBV-oR-aYY" eventType="touchUpInside" id="mYP-B2-eWM"/>
-                                    <segue destination="3Rp-0A-UfC" kind="presentation" modalPresentationStyle="overFullScreen" id="eSY-j4-TDw"/>
+                                    <segue destination="3Rp-0A-UfC" kind="presentation" modalPresentationStyle="fullScreen" id="eSY-j4-TDw"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="タスカーLV." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="awH-UT-ahW">
@@ -1138,6 +1137,6 @@
     <inferredMetricsTieBreakers>
         <segue reference="7Bx-gh-hs7"/>
         <segue reference="rcR-Sm-eNV"/>
-        <segue reference="eSY-j4-TDw"/>
+        <segue reference="rwK-7E-hFU"/>
     </inferredMetricsTieBreakers>
 </document>

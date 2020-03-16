@@ -83,10 +83,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationSignificantTimeChange(_ application: UIApplication) {
         //UDから条件判定のフラグを取得
         UserDefaults.standard.bool(forKey: "alertMsg")
+        print(alertMsg)
         //タスク移動のアラートを表示
         if alertMsg == false {
             moveTaskAlert()
         }
+        print(alertMsg)
 
         //タスク移動処理
         let realm = try! Realm()
@@ -191,11 +193,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let past_day = userDefaults.object(forKey: "timeEnterBG") as! Date
             //日にちが変わっていた場合
             if dateFormat(date: now_day) != dateFormat(date: past_day) {
+                print(dateFormat(date: now_day))
+                   print(dateFormat(date: past_day))
+                
 
                 //UDから条件判定のフラグを取得
-                UserDefaults.standard.bool(forKey: "alertMsg")
+                let flg = UserDefaults.standard.bool(forKey: "alertMsg")
                 //タスク移動のアラートを表示
-                if alertMsg == false {
+                if flg == false {
                     moveTaskAlert()
                 }
                 //タスク移動処理
